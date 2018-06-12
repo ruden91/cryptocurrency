@@ -1,5 +1,6 @@
 {
   "name": "crypto-korean-premium-check",
+  "description": "암호화폐 코리아 프리미엄 시세 비교 서비스",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,6 +23,7 @@
   "devDependencies": {
     "babel-plugin-import": "^1.7.0",
     "flow-bin": "^0.74.0",
-    "react-app-rewired": "^1.5.2"
+    "react-app-rewired": "^1.5.2",
+    "react-test-renderer": "^16.4.0"
   }
 }
