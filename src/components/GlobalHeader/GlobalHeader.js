@@ -1,10 +1,12 @@
 import { Layout, Menu } from 'antd';
 import React from 'react';
-
+import styled from 'styled-components';
 const { Header } = Layout;
 
-export default () => (
-  <Header>
+const StyledGlobalHeader = styled(Header)``;
+
+const GlobalHeader = () => (
+  <StyledGlobalHeader>
     <div className="logo" />
     <Menu
       theme="dark"
@@ -16,5 +18,7 @@ export default () => (
       <Menu.Item key="2">2</Menu.Item>
       <Menu.Item key="3">3</Menu.Item>
     </Menu>
-  </Header>
+  </StyledGlobalHeader>
 );
+
+export default GlobalHeader;

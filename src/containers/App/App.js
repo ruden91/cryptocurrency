@@ -1,12 +1,12 @@
 // @flow
 import React, { Component } from 'react';
 import { Layout } from 'antd';
-import Header from 'components/Header';
+import GlobalHeader from 'components/GlobalHeader';
+import GlobalFooter from 'components/GlobalFooter';
 import CryptoContainer from 'components/CryptoContainer';
 import ExchangeRate from 'components/ExchangeRate';
 import { Card, Col, Row } from 'antd';
-import Footer from 'components/Footer';
-import { initSocket, fetchTickerData } from 'helpers/socket';
+// import { initSocket, fetchTickerData } from 'helpers/socket';
 import './App.css';
 const { Content } = Layout;
 
@@ -25,29 +25,31 @@ class App extends Component<{}, State> {
     coinoneData: []
   };
   componentDidMount() {
-    fetch('http://earthquake.kr/exchange').then(res => {
-      console.log(res);
-    });
     // const socket = initSocket();
     // fetchTickerData(socket, 'binance');
   }
   render() {
     return (
       <Layout className="app">
-        <Header />
-        <Content style={{ padding: '0 50px' }}>
+        <GlobalHeader />
+        <Content style={{ padding: '20px' }}>
           <Row gutter={16}>
-            <Col span={8}>
+            <Col xs={24} sm={12} lg={6}>
               <Card title="Card title" bordered={false}>
                 <ExchangeRate />
               </Card>
             </Col>
-            <Col span={8}>
+            <Col xs={24} sm={12} lg={6}>
               <Card title="Card title" bordered={false}>
                 Card content
               </Card>
             </Col>
-            <Col span={8}>
+            <Col xs={24} sm={12} lg={6}>
+              <Card title="Card title" bordered={false}>
+                Card content
+              </Card>
+            </Col>
+            <Col xs={24} sm={12} lg={6}>
               <Card title="Card title" bordered={false}>
                 Card content
               </Card>
@@ -59,7 +61,7 @@ class App extends Component<{}, State> {
             </Col>
           </Row>
         </Content>
-        <Footer />
+        <GlobalFooter />
       </Layout>
     );
   }
