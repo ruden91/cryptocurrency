@@ -1,11 +1,19 @@
+// @flow
 import React, { Component } from 'react';
 import socketIOClient from 'socket.io-client';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import { Spin } from 'antd';
 import 'containers/App.css';
+
+type State = {
+  binanceData: Array<{}>,
+  bithumbData: Array<{}>,
+  okexData: Array<{}>,
+  coinoneData: Array<{}>
+};
 // Making the App component
-class App extends Component {
+class App extends Component<{}, State> {
   endpoint = 'https://2b2b904f.ngrok.io';
   state = {
     binanceData: [],

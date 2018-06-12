@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "babel-plugin-import": "^1.7.0",
+    "flow-bin": "^0.74.0",
     "react-app-rewired": "^1.5.2"
   }
 }
