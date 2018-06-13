@@ -33,8 +33,8 @@ const ExchangeRate = (props: Props) => {
       {!hasData && <Spin />}
       {hasData && (
         <ul>
-          {props.currencyRate.map(item => (
-            <li>
+          {props.currencyRate.map((item, index) => (
+            <li key={index}>
               {item.Sign} {item.Rate}
             </li>
           ))}

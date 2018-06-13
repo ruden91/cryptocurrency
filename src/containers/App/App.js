@@ -11,7 +11,7 @@ import CryptoContainer from 'components/CryptoContainer';
 import ExchangeRate from 'components/ExchangeRate';
 
 import { fetchCurrencyRate } from 'api';
-// import { initSocket, fetchTickerData } from 'helpers/socket';
+import { initSocket, fetchTickerData } from 'helpers/socket';
 import './App.css';
 const { Content } = Layout;
 
@@ -28,7 +28,7 @@ type State = {
   bithumbData: Array<{}>,
   okexData: Array<{}>,
   coinoneData: Array<{}>,
-  currencyRate: Array<number>
+  currencyRate: Array<mixed>
 };
 
 class App extends Component<{}, State> {
@@ -51,28 +51,17 @@ class App extends Component<{}, State> {
 
   render() {
     const { currencyRate } = this.state;
-    console.log(currencyRate);
     return (
       <Layout className="app">
         <GlobalHeader />
         <StyledContent>
           <StyledRow gutter={16}>
-            <Col xs={24} sm={12} lg={6}>
+            <Col xs={24} lg={6}>
               <Card title="환율정보" bordered={false}>
                 <ExchangeRate currencyRate={currencyRate} />
               </Card>
             </Col>
-            <Col xs={24} sm={12} lg={6}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-            <Col xs={24} sm={12} lg={6}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-            <Col xs={24} sm={12} lg={6}>
+            <Col xs={24} lg={18}>
               <Card title="Card title" bordered={false}>
                 Card content
               </Card>

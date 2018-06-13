@@ -11,6 +11,36 @@ const testData = [
     standardWon: 1,
     BTCWon: 1,
     kimchipremium: 1
+  },
+  {
+    key: '1',
+    coin: 'QTUM',
+    compareBTC: 1,
+    compareDolar: 1,
+    compareWon: 1,
+    standardWon: 1,
+    BTCWon: 1,
+    kimchipremium: 1
+  },
+  {
+    key: '1',
+    coin: 'ADA',
+    compareBTC: 1,
+    compareDolar: 1,
+    compareWon: 1,
+    standardWon: 1,
+    BTCWon: 1,
+    kimchipremium: 1
+  },
+  {
+    key: '1',
+    coin: 'ARDR',
+    compareBTC: 1,
+    compareDolar: 1,
+    compareWon: 1,
+    standardWon: 1,
+    BTCWon: 1,
+    kimchipremium: 1
   }
 ];
 const CryptoList = () => {
@@ -18,17 +48,20 @@ const CryptoList = () => {
     {
       title: '코인',
       dataIndex: 'coin',
-      key: 'coin'
+      key: 'coin',
+      render: text => (
+        <span>
+          <i
+            className={`ci-${text.toLowerCase()} ${text.toLowerCase()}-color`}
+          />
+          {text}
+        </span>
+      )
     },
     {
       title: 'compare(BTC)',
       dataIndex: 'compareBTC',
       key: 'compareBTC'
-    },
-    {
-      title: 'compare($)',
-      dataIndex: 'compareDolar',
-      key: 'compareDolar'
     },
     {
       title: 'compare($)',
@@ -58,11 +91,13 @@ const CryptoList = () => {
   ];
 
   return (
-    <Table
-      pagination={{ position: 'none' }}
-      columns={columns}
-      dataSource={testData}
-    />
+    <div>
+      <Table
+        pagination={{ position: 'none' }}
+        columns={columns}
+        dataSource={testData}
+      />
+    </div>
   );
 };
 
