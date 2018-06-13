@@ -103,12 +103,15 @@ export const setcompareData = (standardData, comparedData) => {
         );
         standardItem.btc_price = Number(comparedItem.bit_price);
         standardItem.diffrence = Math.round(comparedItem.dollar_price * 1077.0);
-        standardItem.premium = standardItem.krw_price - standardItem.diffrence;
-        standardItem.premium_percent = (
+
+        let percent = (
           ((standardItem.krw_price - standardItem.diffrence) /
             standardItem.diffrence) *
           100
         ).toFixed(2);
+
+        standardItem.premium = `${standardItem.krw_price -
+          standardItem.diffrence} (${percent}%)`;
 
         return standardItem;
       }

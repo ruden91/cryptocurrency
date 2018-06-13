@@ -5,14 +5,10 @@ import styled from 'styled-components';
 const StyledCryptoList = styled.div`
   margin-bottom: 20px;
 `;
-
 export default class CryptoList extends Component {
-  componentWillReceiveProps(nextProps) {
-    // console.log(data);
-  }
-
   render() {
     const { comparedExchange, standardExchange, data } = this.props;
+
     const columns = [
       {
         title: '코인',
