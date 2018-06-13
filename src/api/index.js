@@ -296,3 +296,11 @@ export async function fetchupbitCrixItems() {
     console.error(`upbit crix data error: ${err}`);
   }
 }
+
+export const fetchCoinMarketCapData = async () => {
+  let res = await fetch('https://api.coinmarketcap.com/v2/global/');
+  let body = await res.text();
+  let data = JSON.parse(body);
+
+  return data;
+};
