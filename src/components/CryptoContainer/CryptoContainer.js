@@ -3,10 +3,7 @@ import CryptoList from 'components/CryptoList';
 
 export default class CryptoContainer extends Component {
   render() {
-    return (
-      <div>
-        <CryptoList />
-      </div>
-    );
+    const { cryptoDataSet } = this.props;
+    return <div>{cryptoDataSet.map(data => <CryptoList {...data} />)}</div>;
   }
 }

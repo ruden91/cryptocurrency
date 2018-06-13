@@ -10,7 +10,12 @@ import GlobalFooter from 'components/GlobalFooter';
 import CryptoContainer from 'components/CryptoContainer';
 import ExchangeRate from 'components/ExchangeRate';
 
-import { fetchCurrencyRate } from 'api';
+import {
+  fetchCurrencyRate,
+  fetchBithumbMockData,
+  fetchBinanceMockData,
+  setcompareData
+} from 'api';
 import { initSocket, fetchTickerData } from 'helpers/socket';
 import './App.css';
 const { Content } = Layout;
@@ -42,6 +47,22 @@ class App extends Component<{}, State> {
   componentDidMount() {
     // const socket = initSocket();
     // fetchTickerData(socket, 'binance');
+    setInterval(() => {
+      fetchBithumbMockData().then(bithumbData => {
+        this.setState({
+          bithumbData
+        });
+      });
+    }, 3000);
+
+    setInterval(() => {
+      fetchBinanceMockData().then(binanceData => {
+        this.setState({
+          binanceData
+        });
+      });
+    }, 3000);
+
     fetchCurrencyRate().then(currencyRate => {
       this.setState({
         currencyRate
@@ -50,7 +71,9 @@ class App extends Component<{}, State> {
   }
 
   render() {
-    const { currencyRate } = this.state;
+    const { currencyRate, bithumbData, binanceData } = this.state;
+    // setcompareData(bithumbData, binanceData);
+    let testData = [setcompareData(bithumbData, binanceData)];
     return (
       <Layout className="app">
         <GlobalHeader />
@@ -68,10 +91,10 @@ class App extends Component<{}, State> {
             </Col>
           </StyledRow>
           <StyledRow gutter={16}>
-            <Col xs={24} lg={18}>
-              <CryptoContainer />
+            <Col xs={24} lg={16}>
+              <CryptoContainer cryptoDataSet={testData} />
             </Col>
-            <Col xs={24} lg={6}>
+            <Col xs={24} lg={8}>
               <p>hello</p>
             </Col>
           </StyledRow>

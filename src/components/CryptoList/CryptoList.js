@@ -1,104 +1,78 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Table } from 'antd';
+import styled from 'styled-components';
 
-const testData = [
-  {
-    key: '1',
-    coin: 'BTC',
-    compareBTC: 1,
-    compareDolar: 1,
-    compareWon: 1,
-    standardWon: 1,
-    BTCWon: 1,
-    kimchipremium: 1
-  },
-  {
-    key: '1',
-    coin: 'QTUM',
-    compareBTC: 1,
-    compareDolar: 1,
-    compareWon: 1,
-    standardWon: 1,
-    BTCWon: 1,
-    kimchipremium: 1
-  },
-  {
-    key: '1',
-    coin: 'ADA',
-    compareBTC: 1,
-    compareDolar: 1,
-    compareWon: 1,
-    standardWon: 1,
-    BTCWon: 1,
-    kimchipremium: 1
-  },
-  {
-    key: '1',
-    coin: 'ARDR',
-    compareBTC: 1,
-    compareDolar: 1,
-    compareWon: 1,
-    standardWon: 1,
-    BTCWon: 1,
-    kimchipremium: 1
+const StyledCryptoList = styled.div`
+  margin-bottom: 20px;
+`;
+
+export default class CryptoList extends Component {
+  componentWillReceiveProps(nextProps) {
+    // console.log(data);
   }
-];
-const CryptoList = () => {
-  const columns = [
-    {
-      title: '코인',
-      dataIndex: 'coin',
-      key: 'coin',
-      render: text => (
-        <span>
-          <i
-            className={`ci-${text.toLowerCase()} ${text.toLowerCase()}-color`}
-          />
-          {text}
-        </span>
-      )
-    },
-    {
-      title: 'compare(BTC)',
-      dataIndex: 'compareBTC',
-      key: 'compareBTC'
-    },
-    {
-      title: 'compare($)',
-      dataIndex: 'compareDolar',
-      key: 'compareDolar'
-    },
-    {
-      title: 'compare(₩)',
-      dataIndex: 'compareWon',
-      key: 'compareWon'
-    },
-    {
-      title: 'standard(₩)',
-      dataIndex: 'standardWon',
-      key: 'standardWon'
-    },
-    {
-      title: 'BTC차액(₩)',
-      dataIndex: 'BTCWon',
-      key: 'BTCWon'
-    },
-    {
-      title: '김치프리미엄(₩)',
-      dataIndex: 'kimchipremium',
-      key: 'kimchipremium'
-    }
-  ];
 
-  return (
-    <div>
-      <Table
-        pagination={{ position: 'none' }}
-        columns={columns}
-        dataSource={testData}
-      />
-    </div>
-  );
-};
-
-export default CryptoList;
+  render() {
+    const { comparedExchange, standardExchange, data } = this.props;
+    const columns = [
+      {
+        title: '코인',
+        dataIndex: 'name',
+        key: 'name',
+        render: text => {
+          let name = text.toLowerCase();
+          return (
+            <span>
+              <img
+                src={require(`images/cryptoIcon/${name}.svg`)}
+                alt="crpyto"
+              />
+              {text}
+            </span>
+          );
+        }
+      },
+      {
+        title: `${comparedExchange}(BTC)`,
+        dataIndex: 'btc_price',
+        key: 'btc_price'
+      },
+      {
+        title: `${comparedExchange}($)`,
+        dataIndex: 'dollar_price',
+        key: 'dollar_price'
+      },
+      {
+        title: `${comparedExchange}(₩)`,
+        dataIndex: 'diffrence',
+        key: 'diffrence'
+      },
+      {
+        title: `${standardExchange}(₩)`,
+        dataIndex: 'krw_price',
+        key: 'krw_price'
+      },
+      // {
+      //   title: 'BTC차액(₩)',
+      //   dataIndex: 'premium_percent',
+      //   key: 'premium_percent'
+      // },
+      {
+        title: '김치프리미엄(₩)',
+        dataIndex: 'premium',
+        key: 'premium'
+      }
+    ];
+    return (
+      <StyledCryptoList>
+        <Table
+          locale={{
+            emptyText: '데이터를 로딩하고 있습니다.'
+          }}
+          pagination={{ position: 'none' }}
+          columns={columns}
+          dataSource={data}
+        />
+      </StyledCryptoList>
+    );
+  }
+}
