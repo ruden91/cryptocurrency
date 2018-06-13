@@ -32,6 +32,127 @@ export const fetchBithumbMockData = async () => {
   );
 };
 
+export const fetchGateIoMockData = async () => {
+  try {
+    const url =
+      'https://urlreq.appspot.com/req?method=GET&url=http://data.gate.io/api2/1/tickers';
+    const res = await fetch(url);
+    const body = await res.text();
+    const data = JSON.parse(body);
+
+    let test = map(data, (item, key) => {
+      let typeString = String(key.split('_')[1]).toUpperCase();
+
+      let obj = {
+        exchange: 'gateio',
+        name: String(key.split('_')[0]).toUpperCase(),
+        type: getExchangeType(typeString)
+      };
+
+      if (obj.type === 'USD') {
+        obj['dollar_price'] = item.last;
+      } else {
+        obj['bit_price'] = item.last;
+      }
+
+      return obj;
+    });
+
+    let usdData = filter(test, item => item.type === 'USD');
+
+    let btcData = filter(test, item => {
+      return item.type === 'BTC' && find(usdData, { name: item.name });
+    });
+    return map(usdData, data => {
+      let sameBtcData = find(btcData, { name: data.name });
+      let obj = Object.assign({}, data);
+      if (sameBtcData) {
+        obj.bit_price = sameBtcData.bit_price;
+      } else {
+        if (obj.name === 'BTC') {
+          obj.bit_price = 1;
+        } else {
+          obj.bit_price = 0;
+        }
+      }
+      return obj;
+    });
+  } catch (err) {
+    console.error(`gateIo mockData: ${err}`);
+  }
+};
+
+export const fetchCoinoneMockData = async () => {
+  const url =
+    'https://urlreq.appspot.com/req?method=GET&url=https://api.coinone.co.kr/ticker?currency=';
+
+  try {
+    const res = await fetch(url);
+    const body = await res.text();
+    const data = JSON.parse(body);
+
+    return map(data, (value, key) => {
+      if (key === 'bch') {
+        key = 'BCC';
+      }
+
+      return {
+        krw_price: value.last,
+        name: key.toUpperCase(),
+        exchange: 'coinone'
+      };
+    });
+  } catch (err) {
+    console.log(`coinone api error: ${err}`);
+  }
+};
+
+export const fetchOkCoinMockData = async () => {
+  const url =
+    'https://urlreq.appspot.com/req?method=GET&url=https://www.okex.com/v2/spot/markets/tickers';
+
+  try {
+    const res = await fetch(url);
+    const body = await res.text();
+    const data = JSON.parse(body);
+
+    let test = map(data.data, item => {
+      let typeString = String(item.symbol.split('_')[1]).toUpperCase();
+
+      let obj = {
+        exchange: 'okex',
+        name: String(item.symbol.split('_')[0]).toUpperCase(),
+        type: getExchangeType(typeString)
+      };
+
+      if (obj.type === 'USD') {
+        obj['dollar_price'] = item.last;
+      } else {
+        obj['bit_price'] = item.last;
+      }
+
+      return obj;
+    });
+    let usdData = filter(test, item => item.type === 'USD');
+
+    let btcData = filter(test, item => {
+      return item.type === 'BTC' && find(usdData, { name: item.name });
+    });
+    let mergedData = map(usdData, data => {
+      let sameBtcData = find(btcData, { name: data.name });
+      let obj = Object.assign({}, data);
+      if (sameBtcData) {
+        obj.bit_price = sameBtcData.bit_price;
+      } else {
+        obj.bit_price = 1;
+      }
+      return obj;
+    });
+    return mergedData;
+  } catch (err) {
+    console.error(`ERROR : ${err}`);
+  }
+};
 export const fetchBinanceMockData = async () => {
   const res = await fetch(
     'https://urlreq.appspot.com/req?method=GET&url=https://api.binance.com/api/v3/ticker/price'
@@ -102,7 +223,9 @@ export const setcompareData = (standardData, comparedData) => {
           2
         );
         standardItem.btc_price = Number(comparedItem.bit_price);
-        standardItem.diffrence = Math.round(comparedItem.dollar_price * 1077.0);
+        standardItem.diffrence = Math.round(
+          comparedItem.dollar_price * window.CURRENCY_RATE
+        );
 
         let percent = (
           ((standardItem.krw_price - standardItem.diffrence) /
@@ -124,3 +247,52 @@ export const setcompareData = (standardData, comparedData) => {
     data: sortBy(result, 'btc_price').reverse()
   };
 };
+
+export const fetchUpbitTicker = async () => {
+  try {
+    let UPBITCRIXITEMS = await fetchupbitCrixItems();
+    let urls = map(
+      filter(
+        UPBITCRIXITEMS,
+        item =>
+          item.code.indexOf('KRW') > -1 &&
+          item.exchange === 'UPBIT' &&
+          item.marketState === 'ACTIVE'
+      ),
+      data => {
+        return `https://crix-api.upbit.com/v1/crix/trades/ticks?code=CRIX.UPBIT.KRW-${
+          data.baseCurrencyCode
+        }&count=1`;
+      }
+    );
+
+    return Promise.all(
+      urls.map(url => fetch(url).then(resp => resp.text()))
+    ).then(res => {
+      return res.map(data => {
+        const dataSet = JSON.parse(data);
+        const { code, tradePrice } = dataSet[0];
+        return {
+          name: code.split('-')[1],
+          krw_price: tradePrice,
+          exchange: 'upbit'
+        };
+      });
+    });
+  } catch (err) {
+    console.error(`upbit api error: ${err}`);
+  }
+};
+
+export async function fetchupbitCrixItems() {
+  let timestamp = new Date().valueOf();
+  let url = `https://urlreq.appspot.com/req?method=GET&url=https://s3.ap-northeast-2.amazonaws.com/crix-production/crix_master?nonce=${timestamp}`;
+  try {
+    let res = await fetch(url);
+    let body = await res.text();
+    let data = JSON.parse(body);
+    return data;
+  } catch (err) {
+    console.error(`upbit crix data error: ${err}`);
+  }
+}

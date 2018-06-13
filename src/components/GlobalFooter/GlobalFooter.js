@@ -4,7 +4,10 @@ import styled from 'styled-components';
 const { Footer } = Layout;
 
 const StyledGlobalFooter = styled(Footer)`
+  background-color: #fff;
   text-align: center;
+  min-height: 200px;
+  padding: 30px;
 `;
 
 const GlobalFooter = () => (

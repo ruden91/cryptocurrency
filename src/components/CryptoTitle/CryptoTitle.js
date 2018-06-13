@@ -15,6 +15,7 @@ const StyledCryptoTitle = styled.div`
     position: relative;
     display: inline-block;
     margin-left: 5px;
+    white-space: nowrap;
     span {
       text-transform: capitalize;
       font-weight: 500;

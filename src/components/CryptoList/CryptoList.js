@@ -21,6 +21,7 @@ export default class CryptoList extends Component {
               <img
                 src={require(`images/cryptoIcon/${name}.svg`)}
                 alt="crpyto"
+                style={{ marginRight: '5px' }}
               />
               {text}
             </span>
