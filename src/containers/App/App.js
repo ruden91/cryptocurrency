@@ -1,20 +1,34 @@
 // @flow
 import React, { Component } from 'react';
+import styled from 'styled-components';
+
 import { Layout } from 'antd';
+import { Card, Col, Row } from 'antd';
+
 import GlobalHeader from 'components/GlobalHeader';
 import GlobalFooter from 'components/GlobalFooter';
 import CryptoContainer from 'components/CryptoContainer';
 import ExchangeRate from 'components/ExchangeRate';
-import { Card, Col, Row } from 'antd';
+
+import { fetchCurrencyRate } from 'api';
 // import { initSocket, fetchTickerData } from 'helpers/socket';
 import './App.css';
 const { Content } = Layout;
+
+const StyledContent = styled(Content)`
+  padding: 20px;
+`;
+
+const StyledRow = styled(Row)`
+  margin-bottom: 20px;
+`;
 
 type State = {
   binanceData: Array<{}>,
   bithumbData: Array<{}>,
   okexData: Array<{}>,
-  coinoneData: Array<{}>
+  coinoneData: Array<{}>,
+  currencyRate: Array<number>
 };
 
 class App extends Component<{}, State> {
@@ -22,21 +36,30 @@ class App extends Component<{}, State> {
     binanceData: [],
     bithumbData: [],
     okexData: [],
-    coinoneData: []
+    coinoneData: [],
+    currencyRate: []
   };
   componentDidMount() {
     // const socket = initSocket();
     // fetchTickerData(socket, 'binance');
+    fetchCurrencyRate().then(currencyRate => {
+      this.setState({
+        currencyRate
+      });
+    });
   }
+
   render() {
+    const { currencyRate } = this.state;
+    console.log(currencyRate);
     return (
       <Layout className="app">
         <GlobalHeader />
-        <Content style={{ padding: '20px' }}>
-          <Row gutter={16}>
+        <StyledContent>
+          <StyledRow gutter={16}>
             <Col xs={24} sm={12} lg={6}>
-              <Card title="Card title" bordered={false}>
-                <ExchangeRate />
+              <Card title="환율정보" bordered={false}>
+                <ExchangeRate currencyRate={currencyRate} />
               </Card>
             </Col>
             <Col xs={24} sm={12} lg={6}>
@@ -54,13 +77,16 @@ class App extends Component<{}, State> {
                 Card content
               </Card>
             </Col>
-          </Row>
-          <Row>
-            <Col>
+          </StyledRow>
+          <StyledRow gutter={16}>
+            <Col xs={24} lg={18}>
               <CryptoContainer />
             </Col>
-          </Row>
-        </Content>
+            <Col xs={24} lg={6}>
+              <p>hello</p>
+            </Col>
+          </StyledRow>
+        </StyledContent>
         <GlobalFooter />
       </Layout>
     );

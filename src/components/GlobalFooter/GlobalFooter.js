@@ -8,7 +8,9 @@ const StyledGlobalFooter = styled(Footer)`
 `;
 
 const GlobalFooter = () => (
-  <StyledGlobalFooter>CryptoCheck ©2018 Created by Ruden</StyledGlobalFooter>
+  <StyledGlobalFooter>
+    <a href="#">CryptoCheck</a> ©2018 Created by <a href="#">Ruden</a>
+  </StyledGlobalFooter>
 );
 
 export default GlobalFooter;
