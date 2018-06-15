@@ -1,4 +1,4 @@
 {
   "currencyRateUrl":
-    "https://urlreq.appspot.com/req?method=GET&url=https://www.bithumb.com/resources/csv/CurrencyRate.json?csrf_xcoin_name=7edb69b2a02a0c11bca536bdb8d0f5c6&_=1528853899238"
+    "https://cors-proxy.htmldriven.com/?url=https://www.bithumb.com/resources/csv/CurrencyRate.json"
 }

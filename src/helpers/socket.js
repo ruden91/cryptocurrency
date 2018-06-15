@@ -1,7 +1,9 @@
 // @flow
 import socketIOClient from 'socket.io-client';
 
-export const initSocket = (endpoint: string = 'https://2b2b904f.ngrok.io') => {
+export const initSocket = (
+  endpoint: string = 'https://api.doondoony.com/crypto'
+) => {
   return socketIOClient(endpoint);
 };
 

@@ -10,7 +10,7 @@ import CryptoContainer from 'components/CryptoContainer';
 import ChatContainer from 'components/ChatContainer';
 import ExchangeRate from 'components/ExchangeRate';
 import MarketCap from 'components/MarketCap';
-import { BarChart, Bar } from 'recharts';
+import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import {
   fetchCurrencyRate,
   fetchBithumbMockData,
@@ -34,7 +34,24 @@ const sampleData = [
   { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
   { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
   { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
-  { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 }
+  { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
+  { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
+  { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
+  { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
+  { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
+  { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
+  { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
+  { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
+  { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
+  { name: 'Page B', uv: 3000, pv: 1398, amt: 2210 },
+  { name: 'Page C', uv: 2000, pv: 9800, amt: 2290 },
+  { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
+  { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
+  { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
+  { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
+  { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
+  { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
+  { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 }
 ];
 
 const StyledContent = styled(Content)`
@@ -73,12 +90,13 @@ class App extends Component<{}, State> {
     marketCapData: {}
   };
   componentDidMount() {
-    fetchCurrencyRate().then(currencyRate => {
-      window.CURRENCY_RATE = Number(currencyRate[0].Rate);
-      this.setState({
-        currencyRate
-      });
-    });
+    // fetchCurrencyRate().then(currencyRate => {
+    //   console.log(currencyRate);
+    //   window.CURRENCY_RATE = Number(currencyRate[0].Rate);
+    //   this.setState({
+    //     currencyRate
+    //   });
+    // });
     // const socket = initSocket();
     // fetchTickerData(socket, 'binance');
     // setInterval(() => {
@@ -153,7 +171,7 @@ class App extends Component<{}, State> {
       coinoneData,
       marketCapData
     } = this.state;
-    console.log(marketCapData);
+
     // setcompareData(bithumbData, binanceData);
     let testData = [
       setcompareData(bithumbData, binanceData),
@@ -169,49 +187,58 @@ class App extends Component<{}, State> {
 
     return (
       <Layout className="app">
-        <GlobalHeader />
+        {/* <GlobalHeader /> */}
         <StyledContent>
           <StyledRow gutter={16}>
             <Col xs={24} lg={4}>
-              <Card
+              {/* <Card
                 title="환율정보"
                 bordered={false}
                 loading={currencyRate.length === 0 ? true : false}
               >
                 <ExchangeRate currencyRate={currencyRate} />
-              </Card>
+              </Card> */}
             </Col>
             <Col xs={24} lg={8}>
-              <Card
-                title="마켓캡"
+              {/* <Card
+                title="글로벌 암호화폐 현황"
                 bordered={false}
                 loading={!window.CURRENCY_RATE ? true : false}
               >
-                <MarketCap marketCapData={marketCapData} />
-              </Card>
+                {!isEmpty(marketCapData) && (
+                  <MarketCap marketCapData={marketCapData} />
+                )}
+              </Card> */}
             </Col>
             <Col xs={24} lg={12}>
-              <Card
-                title="코인 거래소별 가격비교"
+              {/* <Card
+                title="비트코인 거래소별 가격비교"
                 bordered={false}
                 // loading={true}
               >
-                <BarChart width={150} height={40} data={sampleData}>
-                  <Bar dataKey="uv" fill="#8884d8" />
-                </BarChart>
-              </Card>
+                <ResponsiveContainer width="100%" aspect={12.5 / 3.0}>
+                  <LineChart data={sampleData}>
+                    <Line
+                      type="monotone"
+                      dataKey="pv"
+                      stroke="#8884d8"
+                      strokeWidth={2}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </Card> */}
             </Col>
           </StyledRow>
           <StyledRow gutter={16}>
             <Col xs={24} lg={16}>
-              <CryptoContainer cryptoDataSet={testData} />
+              {/* <CryptoContainer cryptoDataSet={testData} /> */}
             </Col>
             <Col xs={24} lg={8}>
-              <ChatContainer />
+              {/* <ChatContainer /> */}
             </Col>
           </StyledRow>
         </StyledContent>
-        <GlobalFooter />
+        {/* <GlobalFooter /> */}
       </Layout>
     );
   }

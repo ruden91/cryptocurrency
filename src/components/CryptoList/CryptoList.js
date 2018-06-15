@@ -29,22 +29,22 @@ export default class CryptoList extends Component {
         }
       },
       {
-        title: `${comparedExchange}(BTC)`,
+        title: `${comparedExchange ? `${comparedExchange}(BTC)` : '(BTC)'}`,
         dataIndex: 'btc_price',
         key: 'btc_price'
       },
       {
-        title: `${comparedExchange}($)`,
+        title: `${comparedExchange ? `${comparedExchange}($)` : '($)'}`,
         dataIndex: 'dollar_price',
         key: 'dollar_price'
       },
       {
-        title: `${comparedExchange}(₩)`,
+        title: `${comparedExchange ? `${comparedExchange}(₩)` : '(₩)'}`,
         dataIndex: 'diffrence',
         key: 'diffrence'
       },
       {
-        title: `${standardExchange}(₩)`,
+        title: `${standardExchange ? `${standardExchange}(₩)` : '(₩)'}`,
         dataIndex: 'krw_price',
         key: 'krw_price'
       },
@@ -54,7 +54,7 @@ export default class CryptoList extends Component {
       //   key: 'premium_percent'
       // },
       {
-        title: '김치프리미엄(₩)',
+        title: '한국프리미엄(₩)',
         dataIndex: 'premium',
         key: 'premium'
       }

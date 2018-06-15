@@ -12,7 +12,11 @@ const StyledGlobalFooter = styled(Footer)`
 
 const GlobalFooter = () => (
   <StyledGlobalFooter>
-    <a href="#">CryptoCheck</a> ©2018 Created by <a href="#">Ruden</a>
+    <a href="https://cryptocurrency-c7083.firebaseapp.com/#">CryptoCheck</a>{' '}
+    ©2018 Created by{' '}
+    <a href="https://ruden91.github.io/" target="_blank">
+      FERuden
+    </a>
   </StyledGlobalFooter>
 );
 

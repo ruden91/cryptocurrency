@@ -5,10 +5,34 @@ import { compact, map, filter, find, sortBy } from 'lodash';
 export const fetchCurrencyRate = async () => {
   try {
     const res = await fetch(config.currencyRateUrl);
-    const data = await res.text();
+    const data = await res.text().body;
+    console.log(data);
     return JSON.parse(data);
   } catch (err) {
     console.error(`currencyRate APi: ${err}`);
+    const defaultCurrencyRate = [
+      {
+        Currency: 'USD',
+        Sign: '$',
+        Rate: '1074.50'
+      },
+      {
+        Currency: 'JPY',
+        Sign: '￥',
+        Rate: '977.75'
+      },
+      {
+        Currency: 'EUR',
+        Sign: '€',
+        Rate: '1281.39'
+      },
+      {
+        Currency: 'CNY',
+        Sign: '￥',
+        Rate: '169.27'
+      }
+    ];
+    return new Promise(resolve => resolve(defaultCurrencyRate));
   }
 };
 
@@ -155,12 +179,13 @@ export const fetchOkCoinMockData = async () => {
 };
 export const fetchBinanceMockData = async () => {
   const res = await fetch(
-    'https://urlreq.appspot.com/req?method=GET&url=https://api.binance.com/api/v3/ticker/price'
+    'https://cors-proxy.htmldriven.com/?url=https://api.binance.com/api/v3/ticker/price'
   );
   const body = await res.text();
   const data = JSON.parse(body);
+
   // sample binanceMock.data
-  const refinedData = map(data, item => {
+  const refinedData = map(JSON.parse(data.body), item => {
     let obj = {
       exchange: 'binance',
       symbol: item.symbol.replace('USDT', 'USD'),

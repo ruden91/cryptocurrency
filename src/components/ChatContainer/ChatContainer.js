@@ -8,7 +8,7 @@ const StyledChatContainer = styled.div`
 `;
 const ChatContainer = () => (
   <Affix offsetTop={0} onChange={affixed => console.log(affixed)}>
-    <Card title="채팅" bordered={false} loading={true}>
+    <Card title="hello" bordered={false} loading={true}>
       <StyledChatContainer>ChatContainer</StyledChatContainer>
     </Card>
   </Affix>
