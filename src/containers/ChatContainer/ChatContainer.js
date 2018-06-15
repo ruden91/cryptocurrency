@@ -41,16 +41,15 @@ export default class ChatContainer extends Component {
     database
       .ref('messages')
       .orderByKey()
-      .limitToLast(10)
-      .once('value')
-      .then(snap => {
+      .limitToLast(500)
+      .on('value', snap => {
         const messages = map(snap.val(), (value, mid) => ({ ...value, mid }));
+        console.log(messages);
         this.referenceToOldestKey = messages[0].mid;
         this.setState({
           messages
         });
-      })
-      .catch(err => console.error(err));
+      });
   }
 
   shouldComponentUpdate(nextProps, nextState) {

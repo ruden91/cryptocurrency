@@ -92,13 +92,13 @@ class App extends Component<{}, State> {
     marketCapData: {}
   };
   componentDidMount() {
-    // fetchCurrencyRate().then(currencyRate => {
-    //   console.log(currencyRate);
-    //   window.CURRENCY_RATE = Number(currencyRate[0].Rate);
-    //   this.setState({
-    //     currencyRate
-    //   });
-    // });
+    fetchCurrencyRate().then(currencyRate => {
+      console.log(currencyRate);
+      window.CURRENCY_RATE = Number(currencyRate[0].Rate);
+      this.setState({
+        currencyRate
+      });
+    });
     // const socket = initSocket();
     // fetchTickerData(socket, 'binance');
     // setInterval(() => {
@@ -109,45 +109,45 @@ class App extends Component<{}, State> {
     //   });
     // }, 3000);
 
-    // setInterval(() => {
-    //   fetchBinanceMockData().then(binanceData => {
-    //     this.setState({
-    //       binanceData
-    //     });
-    //   });
-    // }, 3000);
+    setInterval(() => {
+      fetchBinanceMockData().then(binanceData => {
+        this.setState({
+          binanceData
+        });
+      });
+    }, 3000);
 
-    // setInterval(() => {
-    //   fetchGateIoMockData().then(gateIoData => {
-    //     this.setState({
-    //       gateIoData
-    //     });
-    //   });
-    // }, 3000);
+    setInterval(() => {
+      fetchGateIoMockData().then(gateIoData => {
+        this.setState({
+          gateIoData
+        });
+      });
+    }, 3000);
 
-    // setInterval(() => {
-    //   fetchOkCoinMockData().then(okCoinData => {
-    //     this.setState({
-    //       okCoinData
-    //     });
-    //   });
-    // }, 3000);
+    setInterval(() => {
+      fetchOkCoinMockData().then(okCoinData => {
+        this.setState({
+          okCoinData
+        });
+      });
+    }, 3000);
 
-    // setInterval(() => {
-    //   fetchCoinoneMockData().then(coinoneData => {
-    //     this.setState({
-    //       coinoneData
-    //     });
-    //   });
-    // }, 3000);
+    setInterval(() => {
+      fetchCoinoneMockData().then(coinoneData => {
+        this.setState({
+          coinoneData
+        });
+      });
+    }, 3000);
 
-    // setInterval(() => {
-    //   fetchUpbitTicker().then(upbitData => {
-    //     this.setState({
-    //       upbitData
-    //     });
-    //   });
-    // }, 3000);
+    setInterval(() => {
+      fetchUpbitTicker().then(upbitData => {
+        this.setState({
+          upbitData
+        });
+      });
+    }, 3000);
 
     fetchCoinMarketCapData().then(marketCapData => {
       this.setState({
@@ -176,9 +176,9 @@ class App extends Component<{}, State> {
 
     // setcompareData(bithumbData, binanceData);
     let testData = [
-      setcompareData(bithumbData, binanceData),
-      setcompareData(bithumbData, gateIoData),
-      setcompareData(bithumbData, okCoinData),
+      // setcompareData(bithumbData, binanceData),
+      // setcompareData(bithumbData, gateIoData),
+      // setcompareData(bithumbData, okCoinData),
       setcompareData(coinoneData, binanceData),
       setcompareData(coinoneData, gateIoData),
       setcompareData(coinoneData, okCoinData),
