@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import randomName from 'node-random-name';
 import { auth } from 'config/firebase';
 const AuthContext = React.createContext();
 
 class AuthProvider extends Component {
   state = {
-    isAuth: false
+    isAuth: false,
+    user: null
   };
 
   componentDidMount() {
@@ -14,20 +16,26 @@ class AuthProvider extends Component {
 
     auth.onAuthStateChanged(user => {
       if (user) {
+        const userData = { ...user };
         // user is logined
-        const isAnonymous = user.isAnonymous;
-        const uid = user.uid;
+        if (!userData.displayName) {
+          userData.displayName = randomName();
+        }
 
-        console.log(isAnonymous);
+        this.setState({
+          isAuth: true,
+          user: userData
+        });
+      } else {
       }
     });
   }
 
   render() {
-    const { isAuth } = this.state;
+    const { isAuth, user } = this.state;
 
     return (
-      <AuthContext.Provider value={{ isAuth }}>
+      <AuthContext.Provider value={{ isAuth, user }}>
         {this.props.children}
       </AuthContext.Provider>
     );

@@ -2,12 +2,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Row, BackTop } from 'antd';
+
+import { AuthConsumer } from 'containers/AuthProvider';
 
 import GlobalHeader from 'components/GlobalHeader';
 import GlobalFooter from 'components/GlobalFooter';
 import CryptoContainer from 'components/CryptoContainer';
-import ChatContainer from 'components/ChatContainer';
+import ChatContainer from 'containers/ChatContainer';
 import ExchangeRate from 'components/ExchangeRate';
 import MarketCap from 'components/MarketCap';
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
@@ -187,20 +189,20 @@ class App extends Component<{}, State> {
 
     return (
       <Layout className="app">
-        {/* <GlobalHeader /> */}
+        <GlobalHeader />
         <StyledContent>
           <StyledRow gutter={16}>
             <Col xs={24} lg={4}>
-              {/* <Card
+              <Card
                 title="환율정보"
                 bordered={false}
                 loading={currencyRate.length === 0 ? true : false}
               >
                 <ExchangeRate currencyRate={currencyRate} />
-              </Card> */}
+              </Card>
             </Col>
             <Col xs={24} lg={8}>
-              {/* <Card
+              <Card
                 title="글로벌 암호화폐 현황"
                 bordered={false}
                 loading={!window.CURRENCY_RATE ? true : false}
@@ -208,10 +210,10 @@ class App extends Component<{}, State> {
                 {!isEmpty(marketCapData) && (
                   <MarketCap marketCapData={marketCapData} />
                 )}
-              </Card> */}
+              </Card>
             </Col>
             <Col xs={24} lg={12}>
-              {/* <Card
+              <Card
                 title="비트코인 거래소별 가격비교"
                 bordered={false}
                 // loading={true}
@@ -226,19 +228,22 @@ class App extends Component<{}, State> {
                     />
                   </LineChart>
                 </ResponsiveContainer>
-              </Card> */}
+              </Card>
             </Col>
           </StyledRow>
           <StyledRow gutter={16}>
             <Col xs={24} lg={16}>
-              {/* <CryptoContainer cryptoDataSet={testData} /> */}
+              <CryptoContainer cryptoDataSet={testData} />
             </Col>
             <Col xs={24} lg={8}>
-              {/* <ChatContainer /> */}
+              <AuthConsumer>
+                {value => <ChatContainer {...value} />}
+              </AuthConsumer>
             </Col>
           </StyledRow>
         </StyledContent>
-        {/* <GlobalFooter /> */}
+        <GlobalFooter />
+        <BackTop />
       </Layout>
     );
   }
