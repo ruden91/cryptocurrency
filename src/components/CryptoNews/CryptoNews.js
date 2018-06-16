@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 import 'moment/locale/ko';
 const StyledList = styled(List)`
-  max-height: 250px;
+  max-height: 272px;
   overflow-y: scroll;
 `;
 
