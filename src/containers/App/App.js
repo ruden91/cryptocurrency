@@ -11,6 +11,8 @@ import GlobalFooter from 'components/GlobalFooter';
 import CryptoContainer from 'components/CryptoContainer';
 import ChatContainer from 'containers/ChatContainer';
 import ExchangeRate from 'components/ExchangeRate';
+import CryptoWatch from 'containers/CryptoWatch';
+import MarketcapChart from 'components/MarketcapChart';
 import MarketCap from 'components/MarketCap';
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import {
@@ -28,13 +30,12 @@ import { initSocket, fetchTickerData } from 'helpers/socket';
 import { isEmpty } from 'lodash';
 import './App.css';
 const { Content } = Layout;
-
 const sampleData = [
   { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
   { name: 'Page B', uv: 3000, pv: 1398, amt: 2210 },
   { name: 'Page C', uv: 2000, pv: 9800, amt: 2290 },
   { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
-  { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
+  { name: 'Page E', uv: 1890, pv: 4800, aOptionmt: 2181 },
   { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
   { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
   { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
@@ -89,16 +90,18 @@ class App extends Component<{}, State> {
     coinoneData: [],
     currencyRate: [],
     dataSource: [],
-    marketCapData: {}
+    marketCapData: {},
+    selectedExchange: '',
+    selectedAssets: ''
   };
   componentDidMount() {
-    fetchCurrencyRate().then(currencyRate => {
-      console.log(currencyRate);
-      window.CURRENCY_RATE = Number(currencyRate[0].Rate);
-      this.setState({
-        currencyRate
-      });
-    });
+    // fetchCurrencyRate().then(currencyRate => {
+    //   console.log(currencyRate);
+    //   window.CURRENCY_RATE = Number(currencyRate[0].Rate);
+    //   this.setState({
+    //     currencyRate
+    //   });
+    // });
     // const socket = initSocket();
     // fetchTickerData(socket, 'binance');
     // setInterval(() => {
@@ -108,52 +111,46 @@ class App extends Component<{}, State> {
     //     });
     //   });
     // }, 3000);
-
-    setInterval(() => {
-      fetchBinanceMockData().then(binanceData => {
-        this.setState({
-          binanceData
-        });
-      });
-    }, 3000);
-
-    setInterval(() => {
-      fetchGateIoMockData().then(gateIoData => {
-        this.setState({
-          gateIoData
-        });
-      });
-    }, 3000);
-
-    setInterval(() => {
-      fetchOkCoinMockData().then(okCoinData => {
-        this.setState({
-          okCoinData
-        });
-      });
-    }, 3000);
-
-    setInterval(() => {
-      fetchCoinoneMockData().then(coinoneData => {
-        this.setState({
-          coinoneData
-        });
-      });
-    }, 3000);
-
-    setInterval(() => {
-      fetchUpbitTicker().then(upbitData => {
-        this.setState({
-          upbitData
-        });
-      });
-    }, 3000);
-
-    fetchCoinMarketCapData().then(marketCapData => {
-      this.setState({
-        marketCapData
-      });
-    });
+    // setInterval(() => {
+    //   fetchBinanceMockData().then(binanceData => {
+    //     this.setState({
+    //       binanceData
+    //     });
+    //   });
+    // }, 3000);
+    // setInterval(() => {
+    //   fetchGateIoMockData().then(gateIoData => {
+    //     this.setState({
+    //       gateIoData
+    //     });
+    //   });
+    // }, 3000);
+    // setInterval(() => {
+    //   fetchOkCoinMockData().then(okCoinData => {
+    //     this.setState({
+    //       okCoinData
+    //     });
+    //   });
+    // }, 3000);
+    // setInterval(() => {
+    //   fetchCoinoneMockData().then(coinoneData => {
+    //     this.setState({
+    //       coinoneData
+    //     });
+    //   });
+    // }, 3000);
+    // setInterval(() => {
+    //   fetchUpbitTicker().then(upbitData => {
+    //     this.setState({
+    //       upbitData
+    //     });
+    //   });
+    // }, 3000);
+    // fetchCoinMarketCapData().then(marketCapData => {
+    //   this.setState({
+    //     marketCapData
+    //   });
+    // });
   }
 
   handleSearch = value => {
@@ -192,16 +189,14 @@ class App extends Component<{}, State> {
         <GlobalHeader />
         <StyledContent>
           <StyledRow gutter={16}>
-            <Col xs={24} lg={4}>
-              <Card
+            <Col xs={24} lg={6}>
+              {/* <Card
                 title="환율정보"
                 bordered={false}
                 loading={currencyRate.length === 0 ? true : false}
               >
                 <ExchangeRate currencyRate={currencyRate} />
-              </Card>
-            </Col>
-            <Col xs={24} lg={8}>
+              </Card> */}
               <Card
                 title="글로벌 암호화폐 현황"
                 bordered={false}
@@ -212,13 +207,23 @@ class App extends Component<{}, State> {
                 )}
               </Card>
             </Col>
+            <Col xs={24} lg={6}>
+              <Card
+                title="시총 점유율"
+                bordered={false}
+                // loading={currencyRate.length === 0 ? true : false}
+              >
+                <MarketcapChart />
+              </Card>
+            </Col>
             <Col xs={24} lg={12}>
               <Card
                 title="비트코인 거래소별 가격비교"
                 bordered={false}
                 // loading={true}
               >
-                <ResponsiveContainer width="100%" aspect={12.5 / 3.0}>
+                <CryptoWatch />
+                {/* <ResponsiveContainer width="100%" aspect={12.5 / 3.0}>
                   <LineChart data={sampleData}>
                     <Line
                       type="monotone"
@@ -227,7 +232,7 @@ class App extends Component<{}, State> {
                       strokeWidth={2}
                     />
                   </LineChart>
-                </ResponsiveContainer>
+                </ResponsiveContainer> */}
               </Card>
             </Col>
           </StyledRow>

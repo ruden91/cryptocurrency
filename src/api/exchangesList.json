@@ -1,0 +1,26 @@
+{
+  "data": [
+    { "name": "Binance" },
+    { "name": "BitBay" },
+    { "name": "Bitfinex" },
+    { "name": "bitFlyer" },
+    { "name": "Bithumb" },
+    { "name": "BitMEX" },
+    { "name": "Bitsquare" },
+    { "name": "Bitstamp" },
+    { "name": "Bittrex" },
+    { "name": "BTC" },
+    { "name": "CEX" },
+    { "name": "Coinone" },
+    { "name": "GDAX" },
+    { "name": "Gemini" },
+    { "name": "HitBTC" },
+    { "name": "Kraken" },
+    { "name": "Luno" },
+    { "name": "OKCoin" },
+    { "name": "Okex" },
+    { "name": "Poloniex" },
+    { "name": "QuadrigaCX" },
+    { "name": "Quoine" }
+  ]
+}

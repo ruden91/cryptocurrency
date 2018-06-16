@@ -1,0 +1,112 @@
+{
+  "data": [
+    { "slug": "BTC", "name": "Bitcoin" },
+    { "slug": "ETH", "name": "Ethereum" },
+    { "slug": "LTC", "name": "Litecoin" },
+    {
+      "slug": "XRP",
+      "name": "Ripple"
+    },
+    { "slug": "ZEC", "name": "ZEC" },
+    { "slug": "ASH", "name": "Dash" },
+    { "slug": "ETC", "name": "Ethereum Classic" },
+    {
+      "slug": "BTG",
+      "name": "Bitcoin Gold"
+    },
+    { "slug": "REP", "name": "Augur" },
+    { "slug": "XMR", "name": "Monero" },
+    { "slug": "XLM", "name": "Stellar" },
+    { "slug": "NEO", "name": "NEO" },
+    { "slug": "EOS", "name": "EOS" },
+    { "slug": "BCC", "name": "Bitcoin Core Token" },
+    { "slug": "TUM", "name": "Qtum" },
+    { "slug": "OMG", "name": "OmiseGo" },
+    { "slug": "XVG", "name": "Verge" },
+    { "slug": "IOT", "name": "IOTA" },
+    { "slug": "GNT", "name": "Golem" },
+    { "slug": "TRX", "name": "TRON" },
+    { "slug": "ZRX", "name": "0x" },
+    { "slug": "LSK", "name": "Lisk" },
+    { "slug": "ADA", "name": "Cardano" },
+    {
+      "slug": "USD",
+      "name": "True USD"
+    },
+    { "slug": "BAT", "name": "Basic Attention Token" },
+    { "slug": "LRC", "name": "Loopring" },
+    {
+      "slug": "RCN",
+      "name": "Ripio Credit Network"
+    },
+    { "slug": "FUN", "name": "FunFair" },
+    { "slug": "RLC", "name": "IExec RLC" },
+    { "slug": "SNT", "name": "Status" },
+    { "slug": "CVC", "name": "Civic" },
+    { "slug": ">SC", "name": "Siacoin" },
+    { "slug": "EDO", "name": "Eidoo" },
+    { "slug": "VEN", "name": "VeChain" },
+    { "slug": "ELF", "name": "Aelf" },
+    { "slug": "POA", "name": "POA Network" },
+    { "slug": "XEM", "name": "NEM" },
+    { "slug": "RDN", "name": "Raiden Network Token" },
+    { "slug": "KNC", "name": "Kyber Network" },
+    { "slug": "REQ", "name": "Request Network" },
+    { "slug": "AGI", "name": "SingularityNET" },
+    { "slug": "ATA", "name": "Data" },
+    { "slug": "TNB", "name": "Time New Bank" },
+    { "slug": "EEM", "name": "Steem" },
+    { "slug": "ORJ", "name": "Storj" },
+    { "slug": "RAT", "name": "Stratis" },
+    { "slug": "BNT", "name": "Bancor" },
+    { "slug": "OWR", "name": "Power Ledger" },
+    { "slug": "CPT", "name": "BlockMason Credit Protocol" },
+    { "slug": "ADX", "name": "AdEx" },
+    { "slug": "LUN", "name": "Lunyr" },
+    { "slug": "ANA", "name": "Decentraland" },
+    {
+      "slug": "MCO",
+      "name": "Monaco"
+    },
+    { "slug": "GTO", "name": "Gifto" },
+    { "slug": "ALT", "name": "SALT" },
+    { "slug": "VES", "name": "Waves" },
+    {
+      "slug": "ICN",
+      "name": "Iconomi"
+    },
+    { "slug": "VIB", "name": "Viberate" },
+    { "slug": "NGS", "name": "Wings" },
+    { "slug": "ORM", "name": "Storm" },
+    {
+      "slug": "ENG",
+      "name": "Enigma"
+    },
+    { "slug": "DNT", "name": "District0x" },
+    { "slug": "SYS", "name": "Syscoin" },
+    { "slug": "VIA", "name": "Viacoin" },
+    {
+      "slug": "NAV",
+      "name": "NAV Coin"
+    },
+    { "slug": "BCN", "name": "Bytecoin" },
+    { "slug": "GAS", "name": "Gas" },
+    { "slug": "ANO", "name": "Nano" },
+    {
+      "slug": "NXS",
+      "name": "Nexus"
+    },
+    { "slug": "BTS", "name": "BitShares" },
+    { "slug": "INK", "name": "ChainLink" },
+    { "slug": "SUB", "name": "Substratum" },
+    { "slug": "IVX", "name": "PIVX" },
+    { "slug": "ICX", "name": "ICON" },
+    { "slug": "ARK", "name": "Ark" },
+    { "slug": "GRS", "name": "Groestlcoin" },
+    { "slug": "XZC", "name": "ZCoin" },
+    { "slug": "OAK", "name": "CloakCoin" },
+    { "slug": "ZEN", "name": "ZenCash" },
+    { "slug": "ZIL", "name": "Zilliqa" },
+    { "slug": "KMD", "name": "Komodo" }
+  ]
+}

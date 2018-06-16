@@ -13,10 +13,25 @@ const StyledChatContainer = styled.div`
   }
 `;
 
+const StyledSearch = styled(Search)`
+  .ant-input {
+    border: none;
+    border-radius: 0;
+  }
+  .ant-btn {
+    border-radius: 0;
+  }
+`;
 const StyledChatContent = styled.div`
   > div {
     overflow-y: scroll;
     height: 300px;
+
+    p {
+      float: left;
+      width: 90%;
+      padding: 0 10px;
+    }
   }
 `;
 export default class ChatContainer extends Component {
@@ -44,7 +59,7 @@ export default class ChatContainer extends Component {
       .limitToLast(500)
       .on('value', snap => {
         const messages = map(snap.val(), (value, mid) => ({ ...value, mid }));
-        console.log(messages);
+
         this.referenceToOldestKey = messages[0].mid;
         this.setState({
           messages
@@ -138,7 +153,7 @@ export default class ChatContainer extends Component {
                       >
                         {item.name}
                       </Avatar>
-                      {item.content}
+                      <p>{item.content}</p>
                     </List.Item>
                   )}
                 />
@@ -146,7 +161,7 @@ export default class ChatContainer extends Component {
             </StyledChatContent>
           </StyledChatContainer>
         </Card>
-        <Search
+        <StyledSearch
           placeholder="메시지를 입력하세요."
           enterButton="입력"
           size="large"
