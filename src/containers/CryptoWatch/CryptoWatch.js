@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { Select } from 'antd';
 import cryptowatch from 'api/cryptowatch.json';
-
+import styled from 'styled-components';
 import { map, compact, uniqBy, filter, flatten, find } from 'lodash';
 const Option = Select.Option;
+
+const StyledSelect = styled.div`
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 20px;
+`;
 export default class CryptoWatch extends Component {
   state = {
     exchangesList: map(cryptowatch.data, data => data.exchange),
@@ -87,34 +93,42 @@ export default class CryptoWatch extends Component {
     console.log(selectedType);
     return (
       <div>
-        <Select
-          defaultValue={selectedExchange}
-          style={{ width: 120 }}
-          onChange={value => this.handleExchange(value)}
-        >
-          {exchangesList.map(exchange => (
-            <Option value={exchange}>{exchange}</Option>
-          ))}
-        </Select>
-        <Select
-          defaultValue={selectedAsset}
-          style={{ width: 120 }}
-          onChange={value => this.setState({ selectedAsset: value })}
-        >
-          {this.assetsList.map(asset => <Option value={asset}>{asset}</Option>)}
-        </Select>
-        <Select
-          defaultValue={selectedType}
-          style={{ width: 120 }}
-          onChange={value => this.setState({ selectedType: value })}
-        >
-          {this.typesList.map(type => <Option value={type}>{type}</Option>)}
-        </Select>
+        <StyledSelect>
+          <Select
+            defaultValue={selectedExchange}
+            style={{ width: 120 }}
+            onChange={value => this.handleExchange(value)}
+          >
+            {exchangesList.map(exchange => (
+              <Option value={exchange}>{exchange}</Option>
+            ))}
+          </Select>
+        </StyledSelect>
+        <StyledSelect>
+          <Select
+            defaultValue={selectedAsset}
+            style={{ width: 120 }}
+            onChange={value => this.setState({ selectedAsset: value })}
+          >
+            {this.assetsList.map(asset => (
+              <Option value={asset}>{asset}</Option>
+            ))}
+          </Select>
+        </StyledSelect>
+        <StyledSelect>
+          <Select
+            defaultValue={selectedType}
+            style={{ width: 120 }}
+            onChange={value => this.setState({ selectedType: value })}
+          >
+            {this.typesList.map(type => <Option value={type}>{type}</Option>)}
+          </Select>
+        </StyledSelect>
         <iframe
           title="cryptowatch"
           src={`https://embed.cryptowat.ch/markets/${selectedExchange}/${selectedAsset}/${selectedType}`}
           frameborder="0"
-          allowfullscreen="true"
+          allowFullScreen="true"
           width="100%"
           height="450"
         />

@@ -123,7 +123,7 @@ export default class ChatContainer extends Component {
 
   scrollToBottom = () => {
     const { messageList } = this.refs;
-    console.log(messageList);
+
     const scrollHeight = messageList.scrollHeight;
     const height = messageList.clientHeight;
     const maxScrollTop = scrollHeight - height;
@@ -133,7 +133,7 @@ export default class ChatContainer extends Component {
   render() {
     const { messages } = this.state;
     const { isAuth } = this.props;
-    console.log(messages);
+
     return (
       <Affix offsetTop={0} onChange={affixed => console.log(affixed)}>
         <Card title="채팅" bordered={false} loading={!isAuth}>

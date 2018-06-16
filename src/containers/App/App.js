@@ -14,6 +14,8 @@ import ExchangeRate from 'components/ExchangeRate';
 import CryptoWatch from 'containers/CryptoWatch';
 import MarketcapChart from 'components/MarketcapChart';
 import MarketCap from 'components/MarketCap';
+import CryptoNews from 'components/CryptoNews';
+
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import {
   fetchCurrencyRate,
@@ -28,6 +30,7 @@ import {
 } from 'api';
 import { initSocket, fetchTickerData } from 'helpers/socket';
 import { isEmpty, flatten } from 'lodash';
+import { database } from 'config/firebase';
 import './App.css';
 const { Content } = Layout;
 const sampleData = [
@@ -96,7 +99,8 @@ class App extends Component<{}, State> {
     dataSource: [],
     marketCapData: {},
     selectedExchange: '',
-    selectedAssets: ''
+    selectedAssets: '',
+    newsItems: []
   };
   componentDidMount() {
     const { standardExchanges, comparedExchanges } = this.state;
@@ -104,6 +108,15 @@ class App extends Component<{}, State> {
       selectedStandardExchanges: standardExchanges,
       selectedComparedExchanges: comparedExchanges
     });
+
+    database
+      .ref('news/data')
+      .once('value')
+      .then(snap => {
+        this.setState({
+          newsItems: snap.val().map(item => item)
+        });
+      });
     // fetchCurrencyRate().then(currencyRate => {
     //   console.log(currencyRate);
     //   window.CURRENCY_RATE = Number(currencyRate[0].Rate);
@@ -219,29 +232,39 @@ class App extends Component<{}, State> {
     //   setcompareData(upbitData, gateIoData),
     //   setcompareData(upbitData, okCoinData)
     // ];
-    console.log(testData);
     return (
       <Layout className="app">
         <GlobalHeader />
         <StyledContent>
           <StyledRow gutter={16}>
             <Col xs={24} lg={6}>
-              {/* <Card
+              <StyledRow>
+                {/* <Card
                 title="환율정보"
                 bordered={false}
                 loading={currencyRate.length === 0 ? true : false}
               >
                 <ExchangeRate currencyRate={currencyRate} />
               </Card> */}
-              <Card
-                title="글로벌 암호화폐 현황"
-                bordered={false}
-                loading={!window.CURRENCY_RATE ? true : false}
-              >
-                {!isEmpty(marketCapData) && (
-                  <MarketCap marketCapData={marketCapData} />
-                )}
-              </Card>
+                <Card
+                  title="글로벌 암호화폐 현황"
+                  bordered={false}
+                  loading={!window.CURRENCY_RATE ? true : false}
+                >
+                  {!isEmpty(marketCapData) && (
+                    <MarketCap marketCapData={marketCapData} />
+                  )}
+                </Card>
+              </StyledRow>
+              <StyledRow>
+                <Card
+                  title="거래소 공지"
+                  bordered={false}
+                  loading={this.state.newsItems.length === 0 ? true : false}
+                >
+                  <CryptoNews newsItems={this.state.newsItems} />
+                </Card>
+              </StyledRow>
             </Col>
             {/* <Col xs={24} lg={6}>
               <Card

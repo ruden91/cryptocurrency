@@ -12,4 +12,5 @@ module.name_mapper='^containers\(.*\)$' -> '<PROJECT_ROOT>/src/containers/\1'
 module.name_mapper='^components\(.*\)$' -> '<PROJECT_ROOT>/src/components/\1'
 module.name_mapper='^helpers\(.*\)$' -> '<PROJECT_ROOT>/src/helpers/\1'
 module.name_mapper='^api\(.*\)$' -> '<PROJECT_ROOT>/src/api/\1'
+module.name_mapper='^config\(.*\)$' -> '<PROJECT_ROOT>/src/config/\1'
 [strict]

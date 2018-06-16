@@ -6,7 +6,7 @@ export const fetchCurrencyRate = async () => {
   try {
     const res = await fetch(config.currencyRateUrl);
     const data = await res.text().body;
-    console.log(data);
+
     return JSON.parse(data);
   } catch (err) {
     console.error(`currencyRate APi: ${err}`);
