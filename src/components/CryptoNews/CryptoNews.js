@@ -25,9 +25,9 @@ const CryptoNews = ({ newsItems }) => (
               {item.notice_title}
             </a>
           }
-          // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+          description={moment(item.created).format('YYYY-MM-DD (ddd)')}
         />
-        <div>{moment(item.created).format('YYYY-MM-DD (ddd)')}</div>
+        {/* <div>{moment(item.created).format('YYYY-MM-DD (ddd)')}</div> */}
       </List.Item>
     )}
   />
