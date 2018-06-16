@@ -89,8 +89,6 @@ export default class CryptoWatch extends Component {
       exchange: this.state.selectedExchange
     }).types;
 
-    console.log(selectedAsset);
-    console.log(selectedType);
     return (
       <div>
         <StyledSelect>

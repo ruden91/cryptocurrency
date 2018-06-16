@@ -1,5 +1,7 @@
 // @flow
+import io from 'socket.io-client';
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { AuthConsumer } from 'containers/AuthProvider';
 import { Layout } from 'antd';
@@ -54,6 +56,13 @@ const StyledRow = styled(Row)`
 `;
 
 export default class Home extends Component<{}, State> {
+  constructor() {
+    super();
+    this.socket = io.connect(
+      'https://api.doondoony.com',
+      { path: '/crypto/socket.io' }
+    );
+  }
   state = {
     standardExchanges: ['upbit', 'coinone', 'coinnest', 'bithumb'],
     selectedStandardExchanges: [],
@@ -98,8 +107,26 @@ export default class Home extends Component<{}, State> {
         marketCapData
       });
     });
-  }
 
+    // socket.on('connect', data => {
+    //   console.log(data)
+    // })
+
+    this.socket.on('UPBIT', data => {
+      console.log('upbit');
+      console.log(data);
+    });
+
+    this.socket.on('BINANCE', data => {
+      console.log('binance');
+      console.log(data);
+    });
+  }
+  componentWillUnmount() {
+    this.socket.off('UPBIT');
+    this.socket.off('BINANCE');
+    console.log('componentWillUnmount');
+  }
   handleCryptoFilter = (type, list) => {
     if (type === 'standard') {
       this.setState({
@@ -139,6 +166,17 @@ export default class Home extends Component<{}, State> {
     );
     return (
       <StyledContent>
+        <Helmet>
+          <link
+            rel="canonical"
+            href="https://cryptocurrency-c7083.firebaseapp.com/"
+          />
+          <title>CryptoCheck | HOME</title>
+          <meta
+            name="description"
+            content="암호화폐 코리아 프리미엄 조회사이트"
+          />
+        </Helmet>
         <StyledRow gutter={16}>
           <Col xs={24} lg={6}>
             <StyledRow>

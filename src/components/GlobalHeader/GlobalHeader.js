@@ -29,7 +29,12 @@ const GlobalHeader = ({ location }) => (
       <Menu.Item key="/donate">
         <Link to="/donate">Donate</Link>
       </Menu.Item>
-      <Menu.Item key="3">3</Menu.Item>
+      <Menu.Item key="/goodnews">
+        <Link to="/goodnews">Goodnews</Link>
+      </Menu.Item>
+      <Menu.Item key="/exchange-ranking">
+        <Link to="/exchange-ranking">ExchangeRanking</Link>
+      </Menu.Item>
     </Menu>
   </StyledGlobalHeader>
 );
