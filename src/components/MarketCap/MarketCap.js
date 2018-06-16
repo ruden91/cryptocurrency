@@ -1,9 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import moment from 'moment';
-import 'moment/locale/ko';
+import { Carousel } from 'antd';
 const StyledMarketCap = styled.div`
-  ul {
+  margin: -24px;
+  .ant-carousel .slick-slide {
+    text-align: center;
+    height: 160px;
+    background: #364d79;
+    padding: 60px 0;
+    overflow: hidden;
+  }
+
+  .ant-carousel .slick-slide h3 {
+    color: #fff;
+  }
+  /* ul {
     margin: 0;
     padding: 0;
 
@@ -24,7 +35,7 @@ const StyledMarketCap = styled.div`
         padding-right: 10px;
       }
     }
-  }
+  } */
 `;
 const MarketCap = props => {
   const {
@@ -39,27 +50,40 @@ const MarketCap = props => {
   } = props.marketCapData;
   return (
     <StyledMarketCap>
-      <ul>
-        <li>
-          <em>암호화폐</em> {active_cryptocurrencies.toLocaleString()}개
-        </li>
-        <li>
-          <em>거래소</em> {active_markets.toLocaleString()}개
-        </li>
-        <li>
-          <em>BTC 점유율</em> {bitcoin_percentage_of_market_cap}%
-        </li>
-        <li>
-          <em>시가총액</em> ₩{(
-            total_market_cap * window.CURRENCY_RATE
-          ).toLocaleString()}
-        </li>
-        <li>
-          <em>24시간 거래량</em> ₩{(
-            total_volume_24h * window.CURRENCY_RATE
-          ).toLocaleString()}
-        </li>
-      </ul>
+      <Carousel vertical autoplay>
+        <div>
+          <h3>
+            암호화폐<br />
+            {active_cryptocurrencies.toLocaleString()}개
+          </h3>
+        </div>
+        <div>
+          <h3>
+            거래소<br />
+            {active_markets.toLocaleString()}개
+          </h3>
+        </div>
+        <div>
+          <h3>
+            BTC 점유율<br />
+            {bitcoin_percentage_of_market_cap}%
+          </h3>
+        </div>
+        <div>
+          <h3>
+            시가총액<br />₩{(
+              total_market_cap * window.CURRENCY_RATE
+            ).toLocaleString()}
+          </h3>
+        </div>
+        <div>
+          <h3>
+            24시간 거래량<br />₩{(
+              total_volume_24h * window.CURRENCY_RATE
+            ).toLocaleString()}
+          </h3>
+        </div>
+      </Carousel>
     </StyledMarketCap>
   );
 };

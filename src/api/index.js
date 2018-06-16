@@ -2,40 +2,9 @@ import config from './config.json';
 import bithumbMock from './bithumb_mock.json';
 import binanceMock from './binance_mock.json';
 import { compact, map, filter, find, sortBy } from 'lodash';
-export const fetchCurrencyRate = async () => {
-  try {
-    const res = await fetch(config.currencyRateUrl);
-    const data = await res.text().body;
-
-    return JSON.parse(data);
-  } catch (err) {
-    console.error(`currencyRate APi: ${err}`);
-    const defaultCurrencyRate = [
-      {
-        Currency: 'USD',
-        Sign: '$',
-        Rate: '1074.50'
-      },
-      {
-        Currency: 'JPY',
-        Sign: '￥',
-        Rate: '977.75'
-      },
-      {
-        Currency: 'EUR',
-        Sign: '€',
-        Rate: '1281.39'
-      },
-      {
-        Currency: 'CNY',
-        Sign: '￥',
-        Rate: '169.27'
-      }
-    ];
-    return new Promise(resolve => resolve(defaultCurrencyRate));
-  }
-};
-
+import axios from 'axios';
+import { database } from 'config/firebase';
+import moment from 'moment';
 export const fetchBithumbMockData = async () => {
   const res = await fetch('https://api.bithumb.com/public/ticker/All');
   const body = await res.text();
@@ -326,6 +295,29 @@ export const fetchCoinMarketCapData = async () => {
   let res = await fetch('https://api.coinmarketcap.com/v2/global/');
   let body = await res.text();
   let data = JSON.parse(body);
-
+  console.log(data);
   return data;
+};
+
+// 환율 데이터 가져오는 함수
+export const fetchCurrencyRate = async () => {
+  try {
+    let res = await axios.get(
+      'https://urlreq.appspot.com/req?method=GET&url=http://info.finance.naver.com/marketindex/exchangeList.nhn'
+    );
+    let div = document.createElement('div');
+    let result = [];
+    div.innerHTML = res.data;
+    let trs = div.querySelectorAll('tbody tr');
+    for (let i = 0; i < trs.length; i++) {
+      result.push({
+        name: trs[i].querySelector('.tit').textContent.trim(),
+        value: trs[i].querySelector('.sale').textContent.trim()
+      });
+    }
+    // let timestamp = new Date().valueOf();
+    return result;
+  } catch (err) {
+    console.error(err);
+  }
 };

@@ -127,7 +127,7 @@ export default class CryptoWatch extends Component {
         <iframe
           title="cryptowatch"
           src={`https://embed.cryptowat.ch/markets/${selectedExchange}/${selectedAsset}/${selectedType}`}
-          frameborder="0"
+          frameBorder="0"
           allowFullScreen="true"
           width="100%"
           height="450"

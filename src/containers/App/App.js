@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Layout } from 'antd';
 import { Card, Col, Row, BackTop } from 'antd';
-
+import axios from 'axios';
 import { AuthConsumer } from 'containers/AuthProvider';
 
 import GlobalHeader from 'components/GlobalHeader';
@@ -117,13 +117,11 @@ class App extends Component<{}, State> {
           newsItems: snap.val().map(item => item)
         });
       });
-    // fetchCurrencyRate().then(currencyRate => {
-    //   console.log(currencyRate);
-    //   window.CURRENCY_RATE = Number(currencyRate[0].Rate);
-    //   this.setState({
-    //     currencyRate
-    //   });
-    // });
+
+    fetchCurrencyRate().then(currencyRate => {
+      window.CURRENCY_RATE = Number(currencyRate[0].value.replace(',', ''));
+    });
+
     // const socket = initSocket();
     // fetchTickerData(socket, 'binance');
     // setInterval(() => {
@@ -168,11 +166,12 @@ class App extends Component<{}, State> {
     //     });
     //   });
     // }, 3000);
-    // fetchCoinMarketCapData().then(marketCapData => {
-    //   this.setState({
-    //     marketCapData
-    //   });
-    // });
+
+    fetchCoinMarketCapData().then(marketCapData => {
+      this.setState({
+        marketCapData
+      });
+    });
   }
 
   handleCryptoFilter = (type, list) => {
