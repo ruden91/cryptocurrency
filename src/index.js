@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom';
 import App from 'containers/App';
 import registerServiceWorker from './registerServiceWorker';
 import { AuthProvider } from 'containers/AuthProvider';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 window.CURRENCY_RATE;
 
 ReactDOM.render(
   <AuthProvider>
-    <BrowserRouter>
+    <HashRouter>
       <App />
-    </BrowserRouter>
+    </HashRouter>
   </AuthProvider>,
   document.getElementById('root')
 );
