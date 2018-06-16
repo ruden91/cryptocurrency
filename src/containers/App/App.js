@@ -27,7 +27,7 @@ import {
   setcompareData
 } from 'api';
 import { initSocket, fetchTickerData } from 'helpers/socket';
-import { isEmpty } from 'lodash';
+import { isEmpty, flatten } from 'lodash';
 import './App.css';
 const { Content } = Layout;
 const sampleData = [
@@ -81,6 +81,10 @@ type State = {
 
 class App extends Component<{}, State> {
   state = {
+    standardExchanges: ['upbit', 'coinone', 'coinnest', 'bithumb'],
+    selectedStandardExchanges: [],
+    comparedExchanges: ['binance', 'okex', 'bittrex', 'bitfinex'],
+    selectedComparedExchanges: [],
     binanceData: [],
     bithumbData: [],
     gateIoData: [],
@@ -95,6 +99,11 @@ class App extends Component<{}, State> {
     selectedAssets: ''
   };
   componentDidMount() {
+    const { standardExchanges, comparedExchanges } = this.state;
+    this.setState({
+      selectedStandardExchanges: standardExchanges,
+      selectedComparedExchanges: comparedExchanges
+    });
     // fetchCurrencyRate().then(currencyRate => {
     //   console.log(currencyRate);
     //   window.CURRENCY_RATE = Number(currencyRate[0].Rate);
@@ -153,6 +162,18 @@ class App extends Component<{}, State> {
     // });
   }
 
+  handleCryptoFilter = (type, list) => {
+    if (type === 'standard') {
+      this.setState({
+        selectedStandardExchanges: list
+      });
+    } else if (type === 'compare') {
+      this.setState({
+        selectedComparedExchanges: list
+      });
+    }
+  };
+
   handleSearch = value => {
     this.setState({
       dataSource: !value ? [] : [value, value + value, value + value + value]
@@ -168,22 +189,37 @@ class App extends Component<{}, State> {
       upbitData,
       okCoinData,
       coinoneData,
-      marketCapData
+      marketCapData,
+      standardExchanges,
+      comparedExchanges,
+      selectedStandardExchanges,
+      selectedComparedExchanges
     } = this.state;
+    let testData = flatten(
+      selectedStandardExchanges.map(sData => {
+        return selectedComparedExchanges.map(cData => {
+          return {
+            standardExchange: sData,
+            comparedExchange: cData,
+            data: []
+          };
+        });
+      })
+    );
 
     // setcompareData(bithumbData, binanceData);
-    let testData = [
-      // setcompareData(bithumbData, binanceData),
-      // setcompareData(bithumbData, gateIoData),
-      // setcompareData(bithumbData, okCoinData),
-      setcompareData(coinoneData, binanceData),
-      setcompareData(coinoneData, gateIoData),
-      setcompareData(coinoneData, okCoinData),
-      setcompareData(upbitData, binanceData),
-      setcompareData(upbitData, gateIoData),
-      setcompareData(upbitData, okCoinData)
-    ];
-
+    // let testData = [
+    //   // setcompareData(bithumbData, binanceData),
+    //   // setcompareData(bithumbData, gateIoData),
+    //   // setcompareData(bithumbData, okCoinData),
+    //   setcompareData(coinoneData, binanceData),
+    //   setcompareData(coinoneData, gateIoData),
+    //   setcompareData(coinoneData, okCoinData),
+    //   setcompareData(upbitData, binanceData),
+    //   setcompareData(upbitData, gateIoData),
+    //   setcompareData(upbitData, okCoinData)
+    // ];
+    console.log(testData);
     return (
       <Layout className="app">
         <GlobalHeader />
@@ -207,7 +243,7 @@ class App extends Component<{}, State> {
                 )}
               </Card>
             </Col>
-            <Col xs={24} lg={6}>
+            {/* <Col xs={24} lg={6}>
               <Card
                 title="시총 점유율"
                 bordered={false}
@@ -215,10 +251,10 @@ class App extends Component<{}, State> {
               >
                 <MarketcapChart />
               </Card>
-            </Col>
-            <Col xs={24} lg={12}>
+            </Col> */}
+            <Col xs={24} lg={18}>
               <Card
-                title="비트코인 거래소별 가격비교"
+                title="Cryptowatch"
                 bordered={false}
                 // loading={true}
               >
@@ -238,7 +274,14 @@ class App extends Component<{}, State> {
           </StyledRow>
           <StyledRow gutter={16}>
             <Col xs={24} lg={16}>
-              <CryptoContainer cryptoDataSet={testData} />
+              <CryptoContainer
+                onHandleCryptoFilter={this.handleCryptoFilter}
+                standardExchanges={standardExchanges}
+                comparedExchanges={comparedExchanges}
+                selectedStandardExchanges={selectedStandardExchanges}
+                selectedComparedExchanges={selectedComparedExchanges}
+                cryptoDataSet={testData}
+              />
             </Col>
             <Col xs={24} lg={8}>
               <AuthConsumer>
