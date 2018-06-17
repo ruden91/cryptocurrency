@@ -2,18 +2,61 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { database } from 'config/firebase';
 import { map, isEmpty } from 'lodash';
-import { List, Avatar, Tabs, Spin, Icon } from 'antd';
+import { List, Avatar, Tabs, Spin, Icon, Card } from 'antd';
 const TabPane = Tabs.TabPane;
 
+const antIcon = <Icon type="loading" style={{ fontSize: 40 }} spin />;
 const StyledGoodnews = styled.div`
-  padding: 20px;
+  position: relative;
+  min-height: 70vh;
+  padding: 15px 0;
+  .ant-tabs-vertical.ant-tabs-left > .ant-tabs-content {
+    padding-right: 24px;
+  }
+  .ant-tabs-bar {
+    height: calc(100vh - 90px) !important;
+  }
+  .ant-tabs-content {
+    height: calc(100vh - 90px);
+    overflow-y: scroll !important;
+  }
+`;
+const StyledSpin = styled.div`
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  width: 320px;
 `;
 
-const antIcon = <Icon type="loading" style={{ fontSize: 40 }} spin />;
-const StyledSpin = styled.div`
-  max-width: 320px;
-  padding: 250px;
-  margin: 0 auto;
+const StyledList = styled(List.Item)`
+  height: 110px;
+  overflow: hidden;
+  .ant-list-item-meta {
+    margin-bottom: 10px;
+  }
+  .ant-card-body {
+    padding: 12px;
+
+    h4 {
+      font-size: 12px;
+      line-height: 15px;
+    }
+    p {
+      margin: 0;
+      padding: 0;
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
+
+    small {
+      font-size: 10px;
+      color: #999;
+      float: right;
+    }
+  }
 `;
 export default class Goodnews extends Component {
   state = {
@@ -46,27 +89,39 @@ export default class Goodnews extends Component {
             map(goodnewsItems, (value, key) => (
               <TabPane tab={key} key={key}>
                 <List
+                  grid={{
+                    gutter: 16,
+                    xs: 1,
+                    sm: 2,
+                    md: 4,
+                    lg: 4,
+                    xl: 6,
+                    xxl: 3
+                  }}
                   itemLayout="horizontal"
                   dataSource={value}
                   renderItem={item => {
                     let name = item.name.match(/\((.*?)\)/)[1];
                     return (
-                      <List.Item>
-                        <List.Item.Meta
-                          avatar={
-                            <Avatar
-                              src={require(`images/hozaeIcon/${name}.png`)}
-                            />
-                          }
-                          title={
-                            <a href={item.url} target="_blank">
-                              {item.name}
-                            </a>
-                          }
-                          description={item.content}
-                        />
-                        {item.date}
-                      </List.Item>
+                      <StyledList>
+                        <Card>
+                          <List.Item.Meta
+                            avatar={
+                              <Avatar
+                                size="small"
+                                src={require(`images/hozaeIcon/${name}.png`)}
+                              />
+                            }
+                            title={
+                              <a href={item.url} target="_blank">
+                                {item.name}
+                              </a>
+                            }
+                          />
+                          <p>{item.content}</p>
+                          <small>{item.date}</small>
+                        </Card>
+                      </StyledList>
                     );
                   }}
                 />

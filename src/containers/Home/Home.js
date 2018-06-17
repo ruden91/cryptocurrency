@@ -247,9 +247,9 @@ export default class Home extends Component<{}, State> {
               cryptoDataSet={testData}
             />
           </Col>
-          <Col xs={24} lg={8}>
+          {/* <Col xs={24} lg={8}>
             <AuthConsumer>{value => <ChatContainer {...value} />}</AuthConsumer>
-          </Col>
+          </Col> */}
         </StyledRow>
       </StyledContent>
     );

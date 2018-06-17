@@ -15,19 +15,6 @@ import './App.css';
 
 import axios from 'axios';
 class App extends Component {
-  componentDidMount() {
-    this.fetchHozae();
-  }
-
-  async fetchHozae() {
-    let res = await axios.get(
-      'https://urlreq.appspot.com/req?method=GET&url=http://hozaebox.com/bbs/board.php?bo_table=hozae'
-    );
-    let div = document.createElement('div');
-
-    div.innerHTML = res.data;
-    console.log(div);
-  }
   render() {
     return (
       <Layout className="app">
