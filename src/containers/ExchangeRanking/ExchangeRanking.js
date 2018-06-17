@@ -45,7 +45,7 @@ export default class ExchangeRanking extends Component {
               <TabPane tab={tabItems[index]} key={tabItems[index]}>
                 <h2>{tabItems[index]} 거래소 거래량 순위</h2>
                 <h3>
-                  {item.volume} {item.altVolume}
+                  24시간 거래량 : {item.volume} {item.altVolume}
                 </h3>
                 <List
                   itemLayout="horizontal"
@@ -53,7 +53,13 @@ export default class ExchangeRanking extends Component {
                   renderItem={item => (
                     <List.Item>
                       <List.Item.Meta
-                        avatar={<Avatar />}
+                        avatar={
+                          <Avatar
+                            src={require(`images/hillsIcon/${item.name
+                              .toLowerCase()
+                              .replace(/\.|\s/g, '-')}.png`)}
+                          />
+                        }
                         title={<a href="https://ant.design">{item.name}</a>}
                         description={`${item.info.market}개의 마켓 및 ${
                           item.info.coin
