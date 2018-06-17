@@ -49,15 +49,13 @@ export default class Goodnews extends Component {
                   itemLayout="horizontal"
                   dataSource={value}
                   renderItem={item => {
-                    // console.log(
-                    //   require(`images/cryptoIcon/${item.symbol.toLowerCase()}.svg`)
-                    // );
+                    let name = item.name.match(/\((.*?)\)/)[1];
                     return (
                       <List.Item>
                         <List.Item.Meta
                           avatar={
                             <Avatar
-                            // src={require(`images/cryptoIcon/${item.symbol.toLowerCase()}.svg`)}
+                              src={require(`images/hozaeIcon/${name}.png`)}
                             />
                           }
                           title={
