@@ -10,6 +10,7 @@ import Home from 'containers/Home';
 import Donate from 'containers/Donate';
 import Goodnews from 'containers/Goodnews';
 import ExchangeRanking from 'containers/ExchangeRanking';
+import IcoInfo from 'containers/IcoInfo';
 import NoMatch from 'components/NoMatch';
 import './App.css';
 
@@ -24,6 +25,7 @@ class App extends Component {
           <Route path="/donate" component={Donate} />
           <Route path="/goodnews" component={Goodnews} />
           <Route path="/exchange-ranking" component={ExchangeRanking} />
+          <Route path="/ico-info" component={IcoInfo} />
           <Route component={NoMatch} />
         </Switch>
         <GlobalFooter />

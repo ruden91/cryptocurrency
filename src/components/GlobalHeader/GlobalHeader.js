@@ -32,6 +32,9 @@ const GlobalHeader = ({ location }) => (
       <Menu.Item key="/exchange-ranking">
         <Link to="/exchange-ranking">거래소순위</Link>
       </Menu.Item>
+      <Menu.Item key="/ico-info">
+        <Link to="/ico-info">ICO정보</Link>
+      </Menu.Item>
       <Menu.Item key="/donate">
         <Link to="/donate">기부</Link>
       </Menu.Item>

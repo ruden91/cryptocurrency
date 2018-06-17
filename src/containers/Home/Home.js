@@ -18,14 +18,18 @@ import CryptoNews from 'components/CryptoNews';
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import {
   fetchCurrencyRate,
-  fetchBithumbMockData,
-  fetchBinanceMockData,
-  fetchGateIoMockData,
-  fetchOkCoinMockData,
-  fetchCoinoneMockData,
+  setBithumbData,
+  setBinanceData,
+  setGateIoData,
+  setOkCoinData,
+  setHitbtcData,
+  setCoinoneData,
+  setBitfinexData,
   fetchUpbitTicker,
+  setPoloniexData,
   fetchCoinMarketCapData,
-  setcompareData
+  setcompareData,
+  setBittrexData
 } from 'api';
 import { initSocket, fetchTickerData } from 'helpers/socket';
 import { isEmpty, flatten } from 'lodash';
@@ -64,9 +68,17 @@ export default class Home extends Component<{}, State> {
     );
   }
   state = {
-    standardExchanges: ['upbit', 'coinone', 'coinnest', 'bithumb'],
+    standardExchanges: ['coinone', 'bithumb'],
     selectedStandardExchanges: [],
-    comparedExchanges: ['binance', 'okex', 'bittrex', 'bitfinex'],
+    comparedExchanges: [
+      'binance',
+      'okex',
+      'gateIo',
+      'bittrex',
+      'poloniex',
+      'hitbtc',
+      'bitfinex'
+    ],
     selectedComparedExchanges: [],
     binanceData: [],
     bithumbData: [],
@@ -76,6 +88,8 @@ export default class Home extends Component<{}, State> {
     okCoinData: [],
     coinoneData: [],
     currencyRate: [],
+    bittrexData: [],
+    poloniexData: [],
     dataSource: [],
     marketCapData: {},
     selectedExchange: '',
@@ -112,14 +126,49 @@ export default class Home extends Component<{}, State> {
     //   console.log(data)
     // })
 
-    this.socket.on('UPBIT', data => {
-      console.log('upbit');
-      console.log(data);
+    this.socket.on('BITHUMB', data => {
+      this.setState({
+        bithumbData: setBithumbData(data)
+      });
+    });
+    this.socket.on('COINONE', data => {
+      this.setState({
+        coinoneData: setCoinoneData(data)
+      });
     });
 
     this.socket.on('BINANCE', data => {
-      console.log('binance');
-      console.log(data);
+      this.setState({
+        binanceData: setBinanceData(data)
+      });
+    });
+
+    this.socket.on('OKEX', data => {
+      this.setState({
+        okexData: setOkCoinData(data)
+      });
+    });
+    this.socket.on('GATE', data => {
+      this.setState({
+        gateIoData: setGateIoData(data)
+      });
+    });
+
+    this.socket.on('BITTREX', data => {
+      this.setState({
+        bittrexData: setBittrexData(data)
+      });
+    });
+
+    this.socket.on('POLONIEX', data => {
+      this.setState({
+        poloniexData: setPoloniexData(data)
+      });
+    });
+    this.socket.on('HITBTC', data => {
+      this.setState({
+        hitbtcData: setHitbtcData(data)
+      });
     });
   }
   componentWillUnmount() {
@@ -159,11 +208,15 @@ export default class Home extends Component<{}, State> {
           return {
             standardExchange: sData,
             comparedExchange: cData,
-            data: []
+            data: setcompareData(
+              this.state[`${sData}Data`],
+              this.state[`${cData}Data`]
+            )
           };
         });
       })
     );
+
     return (
       <StyledContent>
         <Helmet>

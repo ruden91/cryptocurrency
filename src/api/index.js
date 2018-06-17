@@ -5,16 +5,12 @@ import { compact, map, filter, find, sortBy } from 'lodash';
 import axios from 'axios';
 import { database } from 'config/firebase';
 import moment from 'moment';
-export const fetchBithumbMockData = async () => {
-  const res = await fetch('https://api.bithumb.com/public/ticker/All');
-  const body = await res.text();
-  const data = JSON.parse(body);
-  // sample bithumbMock
 
+export const setBithumbData = data => {
   return compact(
-    Object.keys(data.data).map(symbol => {
+    Object.keys(JSON.parse(data).data).map(symbol => {
       if (symbol !== 'date') {
-        const { buy_price } = bithumbMock[symbol];
+        const { buy_price } = JSON.parse(data).data[symbol];
         return {
           krw_price: buy_price,
           name: symbol,
@@ -25,15 +21,9 @@ export const fetchBithumbMockData = async () => {
   );
 };
 
-export const fetchGateIoMockData = async () => {
+export const setGateIoData = data => {
   try {
-    const url =
-      'https://urlreq.appspot.com/req?method=GET&url=http://data.gate.io/api2/1/tickers';
-    const res = await fetch(url);
-    const body = await res.text();
-    const data = JSON.parse(body);
-
-    let test = map(data, (item, key) => {
+    let test = map(JSON.parse(data), (item, key) => {
       let typeString = String(key.split('_')[1]).toUpperCase();
 
       let obj = {
@@ -75,41 +65,31 @@ export const fetchGateIoMockData = async () => {
   }
 };
 
-export const fetchCoinoneMockData = async () => {
-  const url =
-    'https://urlreq.appspot.com/req?method=GET&url=https://api.coinone.co.kr/ticker?currency=';
-
+export const setCoinoneData = jsonData => {
   try {
-    const res = await fetch(url);
-    const body = await res.text();
-    const data = JSON.parse(body);
-
-    return map(data, (value, key) => {
-      if (key === 'bch') {
-        key = 'BCC';
-      }
-
-      return {
-        krw_price: value.last,
-        name: key.toUpperCase(),
-        exchange: 'coinone'
-      };
-    });
+    const data = JSON.parse(jsonData);
+    return compact(
+      map(data, (value, key) => {
+        if (typeof value === 'object') {
+          if (key === 'bch') {
+            key = 'BCC';
+          }
+          return {
+            krw_price: value.last,
+            name: key.toUpperCase(),
+            exchange: 'coinone'
+          };
+        }
+      })
+    );
   } catch (err) {
     console.log(`coinone api error: ${err}`);
   }
 };
 
-export const fetchOkCoinMockData = async () => {
-  const url =
-    'https://urlreq.appspot.com/req?method=GET&url=https://www.okex.com/v2/spot/markets/tickers';
-
+export const setOkCoinData = data => {
   try {
-    const res = await fetch(url);
-    const body = await res.text();
-    const data = JSON.parse(body);
-
-    let test = map(data.data, item => {
+    let test = map(JSON.parse(data).data, item => {
       let typeString = String(item.symbol.split('_')[1]).toUpperCase();
 
       let obj = {
@@ -146,15 +126,8 @@ export const fetchOkCoinMockData = async () => {
     console.error(`ERROR : ${err}`);
   }
 };
-export const fetchBinanceMockData = async () => {
-  const res = await fetch(
-    'https://cors-proxy.htmldriven.com/?url=https://api.binance.com/api/v3/ticker/price'
-  );
-  const body = await res.text();
-  const data = JSON.parse(body);
-
-  // sample binanceMock.data
-  const refinedData = map(JSON.parse(data.body), item => {
+export const setBinanceData = jsonData => {
+  const refinedData = map(JSON.parse(jsonData), item => {
     let obj = {
       exchange: 'binance',
       symbol: item.symbol.replace('USDT', 'USD'),
@@ -205,6 +178,10 @@ export function getExchangeType(type) {
  * @returns {Array} premiumData 프리미엄데이터
  */
 export const setcompareData = (standardData, comparedData) => {
+  if (!standardData || !comparedData) {
+    return [];
+  }
+
   if (standardData.length === 0 || comparedData.length === 0) {
     return [];
   }
@@ -235,11 +212,7 @@ export const setcompareData = (standardData, comparedData) => {
     })
   );
 
-  return {
-    standardExchange: standardData[0].exchange,
-    comparedExchange: comparedData[0].exchange,
-    data: sortBy(result, 'btc_price').reverse()
-  };
+  return sortBy(result, 'btc_price').reverse();
 };
 
 export const fetchUpbitTicker = async () => {
@@ -320,4 +293,172 @@ export const fetchCurrencyRate = async () => {
   } catch (err) {
     console.error(err);
   }
+};
+
+export const setBittrexData = data => {
+  try {
+    let test = map(JSON.parse(data).result, data => {
+      let obj = {
+        exchange: 'bittrex',
+        name: data.MarketName.split('-')[1],
+        type: data.MarketName.split('-')[0]
+      };
+      if (obj.type === 'USDT') {
+        obj['dollar_price'] = data.Last;
+      } else {
+        obj['bit_price'] = data.Last;
+      }
+      return obj;
+    });
+
+    let usdData = filter(test, item => item.type === 'USDT');
+
+    let btcData = filter(test, item => {
+      return item.type === 'BTC' && find(usdData, { name: item.name });
+    });
+
+    let mergedData = map(usdData, data => {
+      let sameBtcData = find(btcData, { name: data.name });
+      let obj = Object.assign({}, data);
+      if (sameBtcData) {
+        obj.bit_price = sameBtcData.bit_price;
+      } else {
+        obj.bit_price = 1;
+      }
+      return obj;
+    });
+
+    return mergedData;
+  } catch (err) {
+    console.log(`bittrex api error: ${err}`);
+  }
+};
+
+export const setPoloniexData = data => {
+  try {
+    let test = map(JSON.parse(data), (item, key) => {
+      let obj = {
+        exchange: 'poloniex',
+        name: key.split('_')[1],
+        type: getExchangeType(key)
+      };
+
+      if (obj.type === 'USD') {
+        obj['dollar_price'] = item.last;
+      } else {
+        obj['bit_price'] = item.last;
+      }
+      return obj;
+    });
+
+    let usdData = filter(test, item => item.type === 'USD');
+
+    let btcData = filter(test, item => {
+      return item.type === 'BTC' && find(usdData, { name: item.name });
+    });
+    let mergedData = map(usdData, data => {
+      let sameBtcData = find(btcData, { name: data.name });
+      let obj = Object.assign({}, data);
+      if (sameBtcData) {
+        obj.bit_price = sameBtcData.bit_price;
+      } else {
+        obj.bit_price = 1;
+      }
+      return obj;
+    });
+
+    return mergedData;
+    // return map(res.data, (value, key) => {
+    //   if (key === "bch") {
+    //     key = "BCC";
+    //   }
+
+    //   return {
+    //     krw_price: value.last,
+    //     name: key.toUpperCase(),
+    //     exchange: "coinone"
+    //   };
+    // });
+  } catch (err) {
+    console.log(`coinone api error: ${err}`);
+  }
+};
+
+export const setHitbtcData = data => {
+  try {
+    let test = map(JSON.parse(data), item => {
+      let obj = {
+        exchange: 'hitbtc',
+        name: item.symbol.replace(/BTC$|USD$/g, ''),
+        type: getExchangeType(item.symbol)
+      };
+
+      if (obj.type === 'USD') {
+        obj['dollar_price'] = item.last;
+      } else {
+        obj['bit_price'] = item.last;
+      }
+
+      return obj;
+    });
+
+    let usdData = filter(test, item => item.type === 'USD');
+
+    let btcData = filter(test, item => {
+      return item.type === 'BTC' && find(usdData, { name: item.name });
+    });
+    let mergedData = map(usdData, data => {
+      let sameBtcData = find(btcData, { name: data.name });
+      let obj = Object.assign({}, data);
+      if (sameBtcData) {
+        obj.bit_price = sameBtcData.bit_price;
+      } else {
+        obj.bit_price = 1;
+      }
+      return obj;
+    });
+
+    return mergedData;
+  } catch (err) {
+    console.log(`hitbtc api error: ${err}`);
+  }
+};
+
+export const setBitfinexData = data => {
+  try {
+    console.log(JSON.parse(data));
+    // return filterBySpecificOrder(res.data);
+  } catch (err) {
+    console.error(`ERROR : ${err}`);
+  }
+};
+
+export const bitfinexParams = () => {
+  let usedCrix = [
+    'BTC',
+    'BCH',
+    'ETH',
+    'DSH',
+    'ZEC',
+    'XMR',
+    'LTC',
+    'BTG',
+    'ETC',
+    'QTM',
+    'EOS',
+    'OMG',
+    'MIT',
+    'XRP',
+    'GNT',
+    'TRX'
+  ];
+  let result = map(usedCrix, item => {
+    if (item === 'BTC') {
+      return `t${item}USD`;
+    } else {
+      return `t${item}USD,t${item}BTC`;
+    }
+  });
+
+  return result.join(',');
 };
