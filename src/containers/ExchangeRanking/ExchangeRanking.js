@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, List, Avatar, Spin, Icon } from 'antd';
+import { Tabs, List, Avatar, Spin, Icon, Tooltip } from 'antd';
 import { database } from 'config/firebase';
 import styled from 'styled-components';
 import { map, isEmpty } from 'lodash';
@@ -60,7 +60,6 @@ export default class ExchangeRanking extends Component {
         {!isEmpty(items) && (
           <Tabs defaultActiveKey={tabItems[0]}>
             {map(items, (item, index) => {
-              console.log(item);
               return (
                 <TabPane tab={tabItems[index]} key={tabItems[index]}>
                   <h2>{tabItems[index]} 거래소 거래량 순위</h2>
@@ -81,9 +80,12 @@ export default class ExchangeRanking extends Component {
                             />
                           }
                           title={<a href="https://ant.design">{item.name}</a>}
-                          description={`${item.info.market}개의 마켓 및 ${
-                            item.info.coin
-                          }개 코인`}
+                          description={
+                            <Tooltip placement="rightTop" title={item.altCoin}>
+                              {item.info.market}개의 마켓 및 {item.info.coin}개
+                              코인
+                            </Tooltip>
+                          }
                         />
                         {item.volume}
                         <br />

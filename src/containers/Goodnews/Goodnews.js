@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { database } from 'config/firebase';
 import { map, isEmpty } from 'lodash';
-import { List, Avatar, Tabs, Spin, Icon, Card } from 'antd';
+import moment from 'moment';
+import 'moment/locale/ko';
+import { List, Avatar, Tabs, Spin, Icon, Card, Badge } from 'antd';
 const TabPane = Tabs.TabPane;
 
 const antIcon = <Icon type="loading" style={{ fontSize: 40 }} spin />;
@@ -19,6 +21,15 @@ const StyledGoodnews = styled.div`
   .ant-tabs-content {
     height: calc(100vh - 90px);
     overflow-y: scroll !important;
+  }
+  .ant-badge {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .ant-badge-status-dot {
+    width: 8px;
+    height: 8px;
   }
 `;
 const StyledSpin = styled.div`
@@ -64,7 +75,11 @@ export default class Goodnews extends Component {
   };
 
   componentDidMount() {
-    console.log('render');
+    this.today = moment(new Date()).format('YYYY-MM-DD');
+    this.defaultActive = `${this.today.split('-')[0]}${
+      this.today.split('-')[1]
+    }`;
+
     database
       .ref('hozae')
       .once('value')
@@ -76,7 +91,6 @@ export default class Goodnews extends Component {
   }
   render() {
     const { goodnewsItems } = this.state;
-
     return (
       <StyledGoodnews>
         {isEmpty(goodnewsItems) && (
@@ -105,6 +119,9 @@ export default class Goodnews extends Component {
                     return (
                       <StyledList>
                         <Card>
+                          {this.today === item.date && (
+                            <Badge status="processing" />
+                          )}
                           <List.Item.Meta
                             avatar={
                               <Avatar

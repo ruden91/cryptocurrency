@@ -52,7 +52,7 @@ casper.start().each(arr, function(self, data) {
               volume: el.querySelector('.c-bitcoin').textContent,
               rank: el.querySelector('.rank').textContent,
               portion: el.querySelector('.portion').textContent,
-              altCoin: el.querySelector('.c-altcoin').stextContent
+              altCoin: el.querySelector('.c-altcoin').textContent
             };
           });
         });
