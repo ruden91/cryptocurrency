@@ -3,6 +3,7 @@ import { Tabs, List, Avatar, Spin, Icon, Tooltip } from 'antd';
 import { database } from 'config/firebase';
 import styled from 'styled-components';
 import { map, isEmpty } from 'lodash';
+import Bar from 'components/charts/bar';
 const TabPane = Tabs.TabPane;
 const antIcon = <Icon type="loading" style={{ fontSize: 40 }} spin />;
 const StyledExchangeRanking = styled.div`
@@ -15,6 +16,20 @@ const StyledExchangeRanking = styled.div`
   h2,
   h3 {
     text-align: center;
+  }
+  .ant-tabs-tabpane {
+    padding: 0 20px;
+  }
+
+  p {
+    margin: 0;
+    line-height: 55px;
+  }
+
+  .exchange-ranking__portion {
+    display: inline-block;
+    white-space: nowrap;
+    line-height: 55px;
   }
 `;
 const StyledSpin = styled.div`
@@ -69,27 +84,59 @@ export default class ExchangeRanking extends Component {
                   <List
                     itemLayout="horizontal"
                     dataSource={item.data}
-                    renderItem={item => (
+                    renderItem={(data, index) => (
                       <List.Item>
                         <List.Item.Meta
                           avatar={
                             <Avatar
-                              src={require(`images/hillsIcon/${item.name
+                              size="large"
+                              src={require(`images/hillsIcon/${data.name
                                 .toLowerCase()
                                 .replace(/\.|\s/g, '-')}.png`)}
                             />
                           }
-                          title={<a href="https://ant.design">{item.name}</a>}
+                          title={<a href="javascript:;">{data.name}</a>}
                           description={
-                            <Tooltip placement="rightTop" title={item.altCoin}>
-                              {item.info.market}개의 마켓 및 {item.info.coin}개
+                            <Tooltip placement="rightTop" title={data.altCoin}>
+                              {data.info.market}개의 마켓 및 {data.info.coin}개
                               코인
                             </Tooltip>
                           }
                         />
-                        {item.volume}
-                        <br />
-                        {item.portion}
+                        <p
+                          style={{
+                            color: `${index === 0 ? '#1890ff' : ''}`,
+                            'font-size': `${index === 0 ? '20px' : ''}`
+                          }}
+                        >
+                          {data.volume}
+                        </p>
+                        <p
+                          style={{
+                            color: `${index === 0 ? '#1890ff' : ''}`,
+                            'font-size': `${index === 0 ? '20px' : ''}`
+                          }}
+                        >
+                          {data.rank}
+                        </p>
+                        <div
+                          style={{
+                            width: '400px',
+                            padding: '0 15px',
+                            position: 'relative',
+                            top: '2px'
+                          }}
+                        >
+                          <Bar
+                            maxValue={parseFloat(
+                              item.data[0].volume.replace(/,/g, '')
+                            )}
+                            value={parseFloat(data.volume.replace(',', ''))}
+                          />
+                        </div>
+                        <span className="exchange-ranking__portion">
+                          {data.portion}
+                        </span>
                       </List.Item>
                     )}
                   />

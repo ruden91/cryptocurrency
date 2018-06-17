@@ -24,16 +24,16 @@ const GlobalHeader = ({ location }) => (
       style={{ lineHeight: '64px' }}
     >
       <Menu.Item key="/">
-        <Link to="/">Home</Link>
-      </Menu.Item>
-      <Menu.Item key="/donate">
-        <Link to="/donate">Donate</Link>
+        <Link to="/">메인</Link>
       </Menu.Item>
       <Menu.Item key="/goodnews">
-        <Link to="/goodnews">Goodnews</Link>
+        <Link to="/goodnews">호재정보</Link>
       </Menu.Item>
       <Menu.Item key="/exchange-ranking">
-        <Link to="/exchange-ranking">ExchangeRanking</Link>
+        <Link to="/exchange-ranking">거래소순위</Link>
+      </Menu.Item>
+      <Menu.Item key="/donate">
+        <Link to="/donate">기부</Link>
       </Menu.Item>
     </Menu>
   </StyledGlobalHeader>
