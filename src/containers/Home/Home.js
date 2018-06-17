@@ -131,11 +131,11 @@ export default class Home extends Component<{}, State> {
         bithumbData: setBithumbData(data)
       });
     });
-    this.socket.on('COINONE', data => {
-      this.setState({
-        coinoneData: setCoinoneData(data)
-      });
-    });
+    // this.socket.on('COINONE', data => {
+    //   this.setState({
+    //     coinoneData: setCoinoneData(data)
+    //   });
+    // });
 
     this.socket.on('BINANCE', data => {
       this.setState({
@@ -143,33 +143,33 @@ export default class Home extends Component<{}, State> {
       });
     });
 
-    this.socket.on('OKEX', data => {
-      this.setState({
-        okexData: setOkCoinData(data)
-      });
-    });
-    this.socket.on('GATE', data => {
-      this.setState({
-        gateIoData: setGateIoData(data)
-      });
-    });
+    // this.socket.on('OKEX', data => {
+    //   this.setState({
+    //     okexData: setOkCoinData(data)
+    //   });
+    // });
+    // this.socket.on('GATE', data => {
+    //   this.setState({
+    //     gateIoData: setGateIoData(data)
+    //   });
+    // });
 
-    this.socket.on('BITTREX', data => {
-      this.setState({
-        bittrexData: setBittrexData(data)
-      });
-    });
+    // this.socket.on('BITTREX', data => {
+    //   this.setState({
+    //     bittrexData: setBittrexData(data)
+    //   });
+    // });
 
-    this.socket.on('POLONIEX', data => {
-      this.setState({
-        poloniexData: setPoloniexData(data)
-      });
-    });
-    this.socket.on('HITBTC', data => {
-      this.setState({
-        hitbtcData: setHitbtcData(data)
-      });
-    });
+    // this.socket.on('POLONIEX', data => {
+    //   this.setState({
+    //     poloniexData: setPoloniexData(data)
+    //   });
+    // });
+    // this.socket.on('HITBTC', data => {
+    //   this.setState({
+    //     hitbtcData: setHitbtcData(data)
+    //   });
+    // });
   }
   componentWillUnmount() {
     this.socket.off('UPBIT');
