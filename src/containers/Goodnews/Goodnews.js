@@ -121,7 +121,6 @@ export default class Goodnews extends Component {
                   itemLayout="horizontal"
                   dataSource={value}
                   renderItem={item => {
-                    let name = item.name.match(/\((.*?)\)/)[1];
                     return (
                       <StyledList>
                         <Card>
@@ -129,12 +128,7 @@ export default class Goodnews extends Component {
                             <Badge status="processing" />
                           )}
                           <List.Item.Meta
-                            avatar={
-                              <Avatar
-                                size="small"
-                                src={require(`images/hozaeIcon/${name}.png`)}
-                              />
-                            }
+                            avatar={<Avatar size="small" src={item.image} />}
                             title={
                               <a href={item.url} target="_blank">
                                 {item.name}

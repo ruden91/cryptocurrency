@@ -3,6 +3,7 @@ import { Select } from 'antd';
 import cryptowatch from 'api/cryptowatch.json';
 import styled from 'styled-components';
 import { map, compact, uniqBy, filter, flatten, find } from 'lodash';
+import IframeComponent from 'components/IframeComponent';
 const Option = Select.Option;
 
 const StyledSelect = styled.div`
@@ -122,13 +123,10 @@ export default class CryptoWatch extends Component {
             {this.typesList.map(type => <Option value={type}>{type}</Option>)}
           </Select>
         </StyledSelect>
-        <iframe
-          title="cryptowatch"
-          src={`https://embed.cryptowat.ch/markets/${selectedExchange}/${selectedAsset}/${selectedType}`}
-          frameBorder="0"
-          allowFullScreen="true"
-          width="100%"
-          height="450"
+        <IframeComponent
+          selectedExchange={selectedExchange}
+          selectedAsset={selectedAsset}
+          selectedType={selectedType}
         />
       </div>
     );
