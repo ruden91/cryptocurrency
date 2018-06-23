@@ -202,20 +202,17 @@ export default class Home extends Component<{}, State> {
       selectedStandardExchanges,
       selectedComparedExchanges
     } = this.state;
-    let testData = flatten(
-      selectedStandardExchanges.map(sData => {
-        return selectedComparedExchanges.map(cData => {
-          return {
-            standardExchange: sData,
-            comparedExchange: cData,
-            data: setcompareData(
-              this.state[`${sData}Data`],
-              this.state[`${cData}Data`]
-            )
-          };
-        });
-      })
-    );
+    // let testData = flatten(
+    //   selectedStandardExchanges.map(sData => {
+    //     return selectedComparedExchanges.map(cData => {
+    //       return {
+    //         standardExchange: sData,
+    //         comparedExchange: cData,
+    //         data: [this.state[`${sData}Data`], this.state[`${cData}Data`]]
+    //       };
+    //     });
+    //   })
+    // );
 
     return (
       <StyledContent>
@@ -233,13 +230,6 @@ export default class Home extends Component<{}, State> {
         <StyledRow gutter={16}>
           <Col xs={24} lg={6}>
             <StyledRow>
-              {/* <Card
-            title="환율정보"
-            bordered={false}
-            loading={currencyRate.length === 0 ? true : false}
-          >
-            <ExchangeRate currencyRate={currencyRate} />
-          </Card> */}
               <Card
                 title="글로벌 암호화폐 현황"
                 bordered={false}
@@ -260,15 +250,6 @@ export default class Home extends Component<{}, State> {
               </Card>
             </StyledRow>
           </Col>
-          {/* <Col xs={24} lg={6}>
-          <Card
-            title="시총 점유율"
-            bordered={false}
-            // loading={currencyRate.length === 0 ? true : false}
-          >
-            <MarketcapChart />
-          </Card>
-        </Col> */}
           <Col xs={24} lg={18}>
             <Card
               title="Cryptowatch"
@@ -276,29 +257,19 @@ export default class Home extends Component<{}, State> {
               // loading={true}
             >
               <CryptoWatch />
-              {/* <ResponsiveContainer width="100%" aspect={12.5 / 3.0}>
-              <LineChart data={sampleData}>
-                <Line
-                  type="monotone"
-                  dataKey="pv"
-                  stroke="#8884d8"
-                  strokeWidth={2}
-                />
-              </LineChart>
-            </ResponsiveContainer> */}
             </Card>
           </Col>
         </StyledRow>
         <StyledRow gutter={16}>
           <Col xs={24} lg={16}>
-            <CryptoContainer
+            {/* <CryptoContainer
               onHandleCryptoFilter={this.handleCryptoFilter}
               standardExchanges={standardExchanges}
               comparedExchanges={comparedExchanges}
               selectedStandardExchanges={selectedStandardExchanges}
               selectedComparedExchanges={selectedComparedExchanges}
               cryptoDataSet={testData}
-            />
+            /> */}
           </Col>
           {/* <Col xs={24} lg={8}>
             <AuthConsumer>{value => <ChatContainer {...value} />}</AuthConsumer>

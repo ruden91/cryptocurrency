@@ -79,15 +79,22 @@ export default class Goodnews extends Component {
     this.defaultActive = `${this.today.split('-')[0]}${
       this.today.split('-')[1]
     }`;
-
-    database
-      .ref('hozae')
-      .once('value')
-      .then(snap => {
-        this.setState({
-          goodnewsItems: snap.val()
-        });
+    if (localStorage.getItem('goodnewsItems')) {
+      this.setState({
+        goodnewsItems: JSON.parse(localStorage.getItem('goodnewsItems'))
       });
+    } else {
+      database
+        .ref('hozae')
+        .once('value')
+        .then(snap => {
+          this.setState({
+            goodnewsItems: snap.val()
+          });
+
+          localStorage.setItem('goodnewsItems', JSON.stringify(snap.val()));
+        });
+    }
   }
   render() {
     const { goodnewsItems } = this.state;
@@ -109,8 +116,7 @@ export default class Goodnews extends Component {
                     sm: 2,
                     md: 4,
                     lg: 4,
-                    xl: 6,
-                    xxl: 3
+                    xl: 6
                   }}
                   itemLayout="horizontal"
                   dataSource={value}
